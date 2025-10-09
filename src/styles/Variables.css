@@ -1,0 +1,44 @@
+/*System General Styles Variables*/
+
+:root {
+  /* Paleta de Colores */
+  --color-primary-brand: #FF8C00; /* Naranja Oscuro (para botones principales, acentos) */
+  --color-primary-dark-text: #333333; /* Gris muy oscuro (para títulos, texto principal) */
+  --color-secondary-gray-text: #666666; /* Gris medio (para subtítulos, texto secundario) */
+  --color-light-background: #F8F8F8; /* Gris muy claro (fondo general de las pantallas) */
+  --color-white: #FFFFFF; /* Blanco (fondos de cards, headers, texto en botones primarios) */
+  --color-light-gray-elements: #EEEEEE; /* Gris claro (fondos de elementos secundarios) */
+  --color-border-light: #E0E0E0; /* Gris muy claro (bordes sutiles) */
+  --color-overlay-dark: rgba(0,0,0,0.4); /* Negro semi-transparente (para modales) */
+  --color-red-error: #F44336; /* Rojo (errores, cancelar) */
+  --color-green-success: #4CAF50; /* Verde (éxito, listo) */
+  --color-orange-warning: #FFA500; /* Naranja/Ámbar (avisos, en preparación) */
+  --color-blue-info: #2196F3; /* Azul (información, retirado) */
+  --color-nav-inactive-icon: #999999; /* Gris para íconos de navegación inactivos */
+
+  /* Tipografía */
+  --font-family-base: 'Roboto', sans-serif; /* Puedes cambiarla por 'Open Sans', 'Lato', etc. */
+  --font-size-hero-title: 28px; /* Títulos muy grandes (ej. en Onboarding) */
+  --font-size-welcome: 22px;    /* Mensajes de bienvenida */
+  --font-size-screen-title: 20px; /* Títulos de pantalla (ej. "Mis Pedidos") */
+  --font-size-section-title: 18px; /* Títulos de secciones dentro de una pantalla */
+  --font-size-body: 15px;      /* Texto de cuerpo general */
+  --font-size-small: 13px;     /* Texto secundario, descripciones cortas */
+  --font-size-caption: 11px;   /* Etiquetas pequeñas, navegación inferior */
+  --font-size-button: 16px;    /* Texto dentro de botones */
+
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Espaciado */
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-s: 12px;
+  --spacing-m: 16px;
+  --spacing-l: 20px; /* Padding horizontal de pantalla */
+  --spacing-xl: 24px;
+  --spacing-xxl: 32px
+}

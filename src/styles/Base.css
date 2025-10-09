@@ -1,0 +1,31 @@
+@import './Variables.css'; 
+
+/* 2. Reseteo Básico */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 3. Estilos Aplicados al Cuerpo (body) */
+body {
+  /* Aplica la fuente y el color de fondo y texto usando las variables */
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body); 
+  color: var(--color-primary-dark-text);
+  background-color: var(--color-light-background);
+  line-height: 1.5;
+}
+
+/* 4. Estilos de Encabezados (ejemplos) */
+h1 {
+  font-size: var(--font-size-screen-title);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing-m);
+}
+
+h2 {
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--spacing-s);
+}
