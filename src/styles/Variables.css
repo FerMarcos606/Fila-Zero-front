@@ -38,7 +38,36 @@
   --spacing-xs: 8px;
   --spacing-s: 12px;
   --spacing-m: 16px;
-  --spacing-l: 20px; /* Padding horizontal de pantalla */
+  --spacing-l: 20px; /* horizontal screen Padding*/
   --spacing-xl: 24px;
   --spacing-xxl: 32px
+
+    --padding-screen: 24px; /* <--- default value */
+    }
+
+
+    /* -----------------------------------------------------------------
+      MEDIA QUERY 1: Tablet / Screen (Máximo 768px)
+      ----------------------------------------------------------------- */
+    @media screen and (max-width: 768px) {
+      :root {
+        /* Redefinición 1: Ligeros ajustes para tablet */
+        --font-size-screen-title: 18px; /* Ligeramente más pequeño */
+        --spacing-l: 16px; /* Ajustamos el espaciado large */
+        --padding-screen: 20px; /* Menor padding */
+      }
+    }
+
+
+    /* -----------------------------------------------------------------
+      MEDIA QUERY 2: Mobiles (Max 600px)
+      ----------------------------------------------------------------- */
+    @media screen and (max-width: 600px) {
+      :root {
+       
+        --font-size-screen-title: 16px; 
+        --spacing-m: 12px;           
+        --padding-screen: 16px;     
+      }
+
 }
