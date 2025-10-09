@@ -29,3 +29,30 @@ h2 {
   font-weight: var(--font-weight-medium);
   margin-bottom: var(--spacing-s);
 }
+
+/* src/styles/base.css */
+
+/* ... (Reglas de reseteo: *, *::before, *::after) ... */
+
+/* ... (Estilos del body, h1, h2) ... */
+
+/* -----------------------------------------------
+   Paragraphe styles (p)
+   ----------------------------------------------- */
+p {
+  font-size: var(--font-size-body); 
+  color: var(--color-primary-dark-text); 
+  line-height: 1.6; 
+  margin-bottom: var(--spacing-m); 
+}
+
+/* Modificador para texto pequeño o secundario */
+.p-small {
+  font-size: var(--font-size-small); 
+  color: var(--color-secondary-gray-text);
+}
+
+/* Modificador de alineación */
+.p-center {
+  text-align: center;
+}
