@@ -4,6 +4,7 @@ import React from 'react';
 // import { Link } from 'react-router-dom'; 
 import Button from '../../components/button/Button'; 
 import './LoginPage.css'; 
+import Header from '../../components/header/Header';
 
 
 const LoginPage = () => {
@@ -17,10 +18,12 @@ const LoginPage = () => {
   
 
   return (
+
     <div className="login-page"> 
       <div className="login-container"> 
-        
-        <h1 className="login__title">Iniciar sesión</h1> 
+         <Header title="Iniciar sesión" />
+{/*         
+        <h1 className="login__title">Iniciar sesión</h1>  */}
 
         
         <form className="login__form" onSubmit={handleSubmit}>
