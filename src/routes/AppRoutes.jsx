@@ -20,6 +20,12 @@
                 {/* <Route path="/loader" element={<Loader />} /> */}
 
             </Routes>
+
+                 <Route element={<MainLayout />}>
+                    {/* <Route path="/home" element={<HomePage />} /> */}
+                    {/* otras páginas internas */}
+                </Route>
+
             </Router>
             
         );

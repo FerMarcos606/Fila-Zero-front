@@ -1,18 +1,13 @@
-import { useLocation } from "react-router-dom";
+// src/App.jsx
+import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import AppRoutes from "./routes/AppRoutes";
+import "./App.css";
 
-function App() {
-  const location = useLocation();
-  const hideHeaderAndFooter = location.pathname === "/";
-
+export default function App() {
   return (
-    // header and footer not in first page
-    <div className="page-wrapper">
-      {!hideHeaderAndFooter && <Header />} 
-      <main className="main-content">
-        <AppRoutes />
-      </main>
-      {!hideHeaderAndFooter && <Footer />}
-    </div>
+    <Router>
+      <AppRoutes />
+    </Router>
   );
 }
-export default App
