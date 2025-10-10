@@ -1,7 +1,7 @@
   import React from "react";
   import {Routes, Route, Router} from 'react-router-dom';
   import LoginPage from "../pages/Loader";
-  import loader from 
+  import Loader from '../pages/Loader'
   
   
   
