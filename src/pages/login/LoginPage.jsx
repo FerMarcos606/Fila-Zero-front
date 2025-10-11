@@ -6,6 +6,7 @@ import Button from '../../components/button/Button';
 import './LoginPage.css'; 
 import Header from '../../components/header/Header';
 import { useNavigate } from "react-router-dom";
+import BackIcon from '../../assets/icon/arrow_back.svg'; 
 
 const LoginPage = () => {
   const navigate = useNavigate();  
@@ -23,7 +24,7 @@ const LoginPage = () => {
       <div className="login-container"> 
          <Header
         title="Iniciar Sesión"
-        leftIcon={<BackIcon />}
+         leftIcon={<img src={BackIcon} alt="Volver" />} 
         onLeftClick={() => navigate(-1)}
       />
 
