@@ -5,11 +5,11 @@ import React from 'react';
 import Button from '../../components/button/Button'; 
 import './LoginPage.css'; 
 import Header from '../../components/header/Header';
-
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
- 
-  
+  const navigate = useNavigate();  
+      
   const handleSubmit = (e) => {
     e.preventDefault(); 
     console.log("Formulario enviado (simulación). ¡Enfócate en los estilos!");
@@ -21,9 +21,11 @@ const LoginPage = () => {
 
     <div className="login-page"> 
       <div className="login-container"> 
-         <Header title="Iniciar sesión" />
-{/*         
-        <h1 className="login__title">Iniciar sesión</h1>  */}
+         <Header
+        title="Iniciar Sesión"
+        leftIcon={<BackIcon />}
+        onLeftClick={() => navigate(-1)}
+      />
 
         
         <form className="login__form" onSubmit={handleSubmit}>

@@ -1,7 +1,9 @@
   import React from "react";
-  import {Routes, Route, Router} from 'react-router-dom';
-  import LoginPage from "../pages/Loader";
-  import Loader from '../pages/Loader'
+  import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+  import MainLayout from "../layout/MainLayout";
+  import LoginPage from "../pages/login/LoginPage";
+  import Loader from "../pages/Loader";
+  import HomePage from "../pages/HomePage";
   
   
   
@@ -9,25 +11,25 @@
     
         return (
             <Router>
-            <Routes>
-                {/* Define la ruta para la página que usa el Button */}
-                <Route path="/login" element={<LoginPage />} />
-                
-                {/*Spinner Page */}
-                <Route path="/loader" element={<Loader />} />
-                
-                {/* Puedes añadir más rutas aquí */}
-                {/* <Route path="/loader" element={<Loader />} /> */}
+      <Routes>
 
-            </Routes>
+        {/* Página de carga inicial */}
+        <Route path="/loader" element={<Loader />} />
 
-                 <Route element={<MainLayout />}>
-                    {/* <Route path="/home" element={<HomePage />} /> */}
-                    {/* otras páginas internas */}
-                </Route>
+        {/* Página de inicio de sesión */}
+        <Route path="/login" element={<LoginPage />} />
 
-            </Router>
-            
-        );
-}
+        {/* 
+          Rutas que usan el layout principal (con Header + Footer)
+          Estas solo se renderizan una vez que la persona usuaria está dentro de la app.
+        */}
+        <Route element={<MainLayout />}>
+          <Route path="/home" element={<HomePage />} />
+          {/* Podés agregar más, ej: pedidos, perfil, etc. */}
+            </Route>
+        </Routes>
+        </Router>
+    );
+    }
+    
 

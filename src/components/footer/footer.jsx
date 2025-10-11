@@ -2,10 +2,10 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import "./Footer.css";
 
-import HomeIcon from '../../assets/icon/home.svg';
-import UserIcon from '../../assets/icon/account.svg';
-import OrderIcon from '../../assets/icon/order.svg';
-import BellIcon from '../../assets/icon/notifaciones.svg';
+import { ReactComponent as HomeIcon } from '../../assets/icon/home.svg';
+import { ReactComponent as UserIcon } from '../../assets/icon/account_box.svg';
+import { ReactComponent as OrderIcon } from '../../assets/icon/order.svg';
+import { ReactComponent as BellIcon } from '../../assets/icon/notifications.svg';
 
 
 export default function Footer() {
