@@ -2,18 +2,20 @@ import React from "react";
 import { Routes, Route } from "react-router-dom"; // Import correcto
 import MainLayout from "../layout/MainLayout";
 import LoginPage from "../pages/login/LoginPage";
-import Loader from "../pages/Loader";
+import LoaderPage from "../pages/LoaderPage";
 import HomePage from "../pages/HomePage";
 
 export default function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<LoginPage />} /> 
+       {/* RUTA RAÍZ */}
+     
+      <Route path="/" element={<LoaderPage />} /> 
 
-      {/* Página de carga inicial */}
-      <Route path="/loader" element={<Loader />} />
+      {/* RUTA DE CARGA (Para consistencia) */}
+      <Route path="/loader" element={<LoaderPage />} />
 
-      {/* Página de inicio de sesión (redundante, pero segura) */}
+      {/* Página de inicio de sesión */}
       <Route path="/login" element={<LoginPage />} />
 
       {/* Rutas que usan el layout principal */}

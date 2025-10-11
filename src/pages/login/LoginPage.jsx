@@ -1,95 +1,72 @@
-// src/pages/LoginPage/LoginPage.jsx
-
-import React from 'react';
-// import { Link } from 'react-router-dom'; 
-import Button from '../../components/button/Button'; 
-import './LoginPage.css'; 
-import Header from '../../components/header/Header';
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { useNavigate } from "react-router-dom"; // 1. Importar useNavigate
+import Header from "../../components/header/Header";
+import Button from "../../components/button/Button"; 
+import "./LoginPage.css";
+// Asegúrate de que esta importación sea correcta
 import BackIcon from '../../assets/icon/arrow_back.svg'; 
 
 const LoginPage = () => {
-  const navigate = useNavigate();  
-      
+  // 2. Inicializar el hook
+  const navigate = useNavigate();
+
+  // 3. Función de manejo de envío de formulario
   const handleSubmit = (e) => {
-    e.preventDefault(); 
-    console.log("Formulario enviado (simulación). ¡Enfócate en los estilos!");
+    e.preventDefault();
+    
+    // Aquí iría tu lógica real de autenticación.
+    // Por ahora, simulamos el éxito y navegamos a /home.
+    console.log("Simulando login exitoso. Navegando a /home.");
+    
+    // 4. USAR EL HOOK PARA NAVEGAR A LA RUTA DESEADA
+    navigate("/home"); 
   };
 
-  
-
   return (
+    <div className="login-page">
+      <div className="login-container">
+        <Header
+          title="Iniciar Sesión"
+          // Usamos navigate(-1) para volver a la página anterior, si existe
+          leftIcon={<img src={BackIcon} alt="Volver" />} 
+          onLeftClick={() => navigate(-1)}
+        />
 
-    <div className="login-page"> 
-      <div className="login-container"> 
-         <Header
-        title="Iniciar Sesión"
-         leftIcon={<img src={BackIcon} alt="Volver" />} 
-        onLeftClick={() => navigate(-1)}
-      />
-
-        
+        {/* El formulario llama a handleSubmit */}
         <form className="login__form" onSubmit={handleSubmit}>
+          {/* ... campos de email y contraseña ... */}
           
-          
-          <p className="p-small login__error login__error--general">
-            Credenciales inválidas. Por favor, revisa tu información.
-          </p>
-
-         
           <div className="login__field">
-            <label htmlFor="email" className="login__label"> 
-              Correo electrónico
-            </label>
+            <label htmlFor="email" className="login__label">Correo electrónico</label>
             <input
               id="email"
               type="email"
               placeholder="tunombre@gmail.com"
-              
               className="login__input"
             />
-           
           </div>
-          
-          
+
           <div className="login__field">
-            <label htmlFor="password" className="login__label">
-              Contraseña
-            </label>
+            <label htmlFor="password" className="login__label">Contraseña</label>
             <input
               id="password"
               type="password"
               placeholder="**********"
-             
-              className="login__input login__input--error" 
+              className="login__input"
             />
-            
-            <p className="login__error">La contraseña es obligatoria.</p>
           </div>
 
-          
           <Button
-            text={'Iniciar sesión'} 
+            text="Iniciar sesión"
             variant="primary"
-            type="submit" 
-            // 💡 Puedes poner disabled={true} para ver el estilo deshabilitado
-            disabled={false} 
-           
+            type="submit" // Es crucial que el type sea submit para que se ejecute handleSubmit
+            disabled={false}
           />
-          
         </form>
-
-        {/* Link Register
-        <p className="p-small login-link-container">
-          ¿No tienes cuenta? 
-          <Link to="/register" className="btn-link"> 
-            Regístrate aquí
-          </Link>
-        </p> */}
-
       </div>
     </div>
   );
 };
 
 export default LoginPage;
+
