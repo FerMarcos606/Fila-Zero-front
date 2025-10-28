@@ -4,6 +4,7 @@ import MainLayout from "../layout/MainLayout";
 import LoginPage from "../pages/login/LoginPage";
 import LoaderPage from "../pages/LoaderPage";
 import HomePage from "../pages/HomePage";
+import RegistrationPage from '../pages/registration/RegistrationPage';
 
 export default function AppRoutes() {
   return (
@@ -21,6 +22,10 @@ export default function AppRoutes() {
       {/* Rutas que usan el layout principal */}
       <Route element={<MainLayout />}>
         <Route path="/home" element={<HomePage />} />
+
+    {/* Ruta de Registro */}
+        <Route path="/register" element={<RegistrationPage />} />
+
       </Route>
     </Routes>
   );

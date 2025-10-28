@@ -3,7 +3,7 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  max-width: 375px; /* Asegura que no se extienda más allá del ancho del iPhone 13 mini */
+  /*max-width: 375px; Asegura que no se extienda más allá del ancho del iPhone 13 mini*/
   margin: 0 auto;   /* Centra la barra en el viewport si la pantalla es más ancha */
   background-color: var(--color-white);
   box-shadow: 0 -2px 8px rgba(0,0,0,0.1); /* Sombra superior para levantarla visualmente */

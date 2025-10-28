@@ -25,16 +25,26 @@ const LoginPage = () => {
   return (
     <div className="login-page">
       <div className="login-container">
-        <Header
-          title="Iniciar Sesión"
-          // Usamos navigate(-1) para volver a la página anterior, si existe
+        {/*
+          NOTA: Si tu componente <Header /> ya maneja el título principal
+          y quieres que el nuevo texto esté debajo, lo quitamos de <Header />
+          y lo ponemos con etiquetas <h1> y <p> o <h2>.
+        */}
+
+        {/* --- 1. Título y Subtítulo (Agregados aquí) --- */}
+        <h1 className="login__title">Iniciar sesión</h1>
+        <p className="login__subtitle">
+            ¡Bienvenido a **Fila-Zero**! ¡Tus Empanadas recién horneadas!
+        </p>
+        
+        {/* El botón de volver (si lo quieres) */}
+        {/* <Header 
           leftIcon={<img src={BackIcon} alt="Volver" />} 
           onLeftClick={() => navigate(-1)}
-        />
+        /> */}
 
         {/* El formulario llama a handleSubmit */}
         <form className="login__form" onSubmit={handleSubmit}>
-          {/* ... campos de email y contraseña ... */}
           
           <div className="login__field">
             <label htmlFor="email" className="login__label">Correo electrónico</label>
@@ -62,6 +72,19 @@ const LoginPage = () => {
             type="submit" // Es crucial que el type sea submit para que se ejecute handleSubmit
             disabled={false}
           />
+
+          {/* --- 2. Enlace de Registro (Agregado aquí) --- */}
+          <div className="login__register-link">
+            ¿No tienes una cuenta? 
+            {/* Asumo que la ruta de registro es /register o /registro */}
+            <span 
+                onClick={() => navigate("/register")} 
+                className="login__register-text"
+            >
+                ¡Regístrate!
+            </span>
+          </div>
+
         </form>
       </div>
     </div>
@@ -69,4 +92,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-

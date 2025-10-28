@@ -5,8 +5,7 @@ import "./Footer.css";
 import homeIcon from '../../assets/icon/home.svg';
 import UserIcon from '../../assets/icon/account_box.svg';
 import OrderIcon from '../../assets/icon/order.svg';
-// import { ReactComponent as BellIcon } from '../../assets/icon/notifications.svg';
-
+import BellIcon from '../../assets/icon/notifications.svg';
 
 export default function Footer() {
   return (
@@ -19,13 +18,13 @@ export default function Footer() {
       <NavLink to="/pedidos" className="nav-item">
         <img src={OrderIcon} className="nav-item-icon" alt="Home" />
         <span>Pedidos</span>
-        <div className="nav-item-badge">3</div> {/* ejemplo de notificación */}
+        <div className="nav-item-badge"></div> {/* ejemplo de notificación */}
       </NavLink>
 
-      {/* <NavLink to="/notificaciones" className="nav-item">
-        <BellIcon className="nav-item-icon" />
+      <NavLink to="/notificaciones" className="nav-item">
+        <img src={BellIcon} className="nav-item-icon" />
         <span>Alertas</span>
-      </NavLink> */}
+      </NavLink> 
 
       <NavLink to="/perfil" className="nav-item">
          <img src={UserIcon} className="nav-item-icon" alt="Home" />
