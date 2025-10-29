@@ -3,8 +3,9 @@ import { Routes, Route } from "react-router-dom"; // Import correcto
 import MainLayout from "../layout/MainLayout";
 import LoginPage from "../pages/login/LoginPage";
 import LoaderPage from "../pages/LoaderPage";
-import HomePage from "../pages/HomePage";
+import HomePage from '../pages/home/HomePage';
 import RegistrationPage from '../pages/registration/RegistrationPage';
+import ProfilePage from "../pages/profile/ProfilePage";
 
 export default function AppRoutes() {
   return (
@@ -25,6 +26,9 @@ export default function AppRoutes() {
 
     {/* Ruta de Registro */}
         <Route path="/register" element={<RegistrationPage />} />
+
+        {/* Ruta de Profile */}
+        <Route path="/profile" element={<ProfilePage />} />
 
       </Route>
     </Routes>

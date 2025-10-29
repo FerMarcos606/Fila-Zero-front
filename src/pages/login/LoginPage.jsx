@@ -1,10 +1,9 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; // 1. Importar useNavigate
+import { useNavigate } from "react-router-dom"; 
 import Header from "../../components/header/Header";
 import Button from "../../components/button/Button"; 
 import "./LoginPage.css";
-// Asegúrate de que esta importación sea correcta
-import BackIcon from '../../assets/icon/arrow_back.svg'; 
+
 
 const LoginPage = () => {
   // 2. Inicializar el hook
@@ -36,12 +35,6 @@ const LoginPage = () => {
         <p className="login__subtitle">
             ¡Bienvenido a **Fila-Zero**! ¡Tus Empanadas recién horneadas!
         </p>
-        
-        {/* El botón de volver (si lo quieres) */}
-        {/* <Header 
-          leftIcon={<img src={BackIcon} alt="Volver" />} 
-          onLeftClick={() => navigate(-1)}
-        /> */}
 
         {/* El formulario llama a handleSubmit */}
         <form className="login__form" onSubmit={handleSubmit}>

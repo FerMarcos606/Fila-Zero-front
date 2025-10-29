@@ -1,0 +1,36 @@
+.close-button {
+  width: 36px; /* Tamaño del botón */
+  height: 36px;
+  background-color: var(--color-red-error); /* Fondo rojo para indicar cierre/salida */
+  border-radius: 50%; /* Circular */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10; /* Asegura que esté por encima de otros elementos */
+  border: none;
+  padding: 0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Sombra sutil */
+  transition: background-color 0.2s ease;
+}
+
+.close-button:hover {
+    background-color: #dd7373; /* Rojo más oscuro al pasar el ratón */
+}
+
+.close-button::before,
+.close-button::after {
+  content: '';
+  position: absolute;
+  width: 16px; /* Largo de la cruz */
+  height: 2px; /* Grosor de la cruz */
+  background-color: var(--color-white); /* Cruz blanca */
+}
+
+.close-button::before {
+  transform: rotate(45deg);
+}
+
+.close-button::after {
+  transform: rotate(-45deg);
+}

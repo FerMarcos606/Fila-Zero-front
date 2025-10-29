@@ -1,0 +1,95 @@
+.home { /* Se mapea a la clase .home-quick-order-screen en tu código */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 375px; /* Ancho base del iPhone 13 mini */
+  margin: 0 auto;
+  background-color: var(--color-light-background);
+  padding-bottom: 70px; /* Espacio para la barra de navegación inferior */
+}
+
+/* Contenido principal (.home__content) */
+.home__content {
+  flex-grow: 1; 
+  padding: var(--spacing-l) 0; 
+  overflow-y: auto; 
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Sección del saludo (.home__welcome) */
+.home__welcome { /* Mapeado a .home-header-content */
+  padding: 0 var(--spacing-l);
+  margin-bottom: var(--spacing-xl);
+}
+
+/* Mensaje de bienvenida (.home__welcome-message) */
+.home__welcome-message { 
+  font-size: var(--font-size-body);
+  color: var(--color-secondary-gray-text);
+  font-weight: var(--font-weight-regular);
+  margin-bottom: var(--spacing-xs);
+}
+
+/* Subtítulo de bienvenida (.home__welcome-subtitle) */
+.home__welcome-subtitle { 
+  font-size: var(--font-size-screen-title);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-dark-text);
+  margin-bottom: 0;
+}
+
+/* Sección de Pedido Rápido (.home__quick-order) */
+.home__quick-order { 
+  padding: 0 var(--spacing-l); 
+  margin-bottom: var(--spacing-xl); 
+}
+
+/* Ítem de empanada (.home__quick-item) */
+.home__quick-item { 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-small);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  padding: var(--spacing-s) var(--spacing-m);
+  margin-bottom: var(--spacing-s);
+}
+
+/* Nombre del ítem (.home__quick-name) */
+.home__quick-name {
+  font-size: var(--font-size-body);
+  color: var(--color-primary-dark-text);
+  font-weight: var(--font-weight-medium);
+  flex-grow: 1;
+}
+
+/* Pie de Resumen (.home__summary) */
+.home__summary { 
+  padding: var(--spacing-m) var(--spacing-l);
+  background-color: var(--color-white);
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+  border-top: 1px solid var(--color-border-light);
+}
+
+/* Contenedor de Total (.home__total) */
+.home__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: var(--spacing-m); 
+}
+
+/* Etiqueta de Total (.home__total-label) */
+.home__total-label {
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary-dark-text);
+}
+
+/* Valor de Total (.home__total-value) */
+.home__total-value {
+  font-size: var(--font-size-screen-title);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-dark-text);
+}
