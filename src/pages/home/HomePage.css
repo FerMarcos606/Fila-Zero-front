@@ -1,95 +1,246 @@
-.home { /* Se mapea a la clase .home-quick-order-screen en tu código */
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  max-width: 375px; /* Ancho base del iPhone 13 mini */
-  margin: 0 auto;
-  background-color: var(--color-light-background);
-  padding-bottom: 70px; /* Espacio para la barra de navegación inferior */
+/* Bloque Principal (Simula centrado en móvil) */
+.home-screen {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* Centrado en móvil y límite de ancho */
+    max-width: 400px; 
+    margin: 0 auto;
+    background-color: var(--color-light-background); /* Usando tu variable */
+    position: relative; /* Para que el footer fixed se centre correctamente */
 }
 
-/* Contenido principal (.home__content) */
+/* ------------------ HEADER ------------------ */
+
+.home__header {
+    /* Estilo fijo superior */
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    /* Fondo con un poco de transparencia y blur para un efecto moderno */
+    background-color: var(--color-white-transparent); /* Puedes definir esta variable si quieres blur */
+    backdrop-filter: blur(5px); 
+    
+    padding: var(--spacing-m) var(--spacing-l); 
+    border-bottom: 1px solid var(--color-border-light); 
+}
+
+.home__header-title {
+    font-size: var(--font-size-section-title); /* 18px */
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary-dark-text);
+}
+
+.home__profile-btn {
+    /* Diseño circular rojo suave (simulando bg-primary/10 text-primary) */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--color-primary-light); /* Necesitas una versión más clara de --color-primary */
+    color: var(--color-primary); 
+    border: none;
+    cursor: pointer;
+}
+
+.home__profile-icon {
+    font-size: 24px;
+}
+
+/* ------------------ main content ------------------ */
+
 .home__content {
-  flex-grow: 1; 
-  padding: var(--spacing-l) 0; 
-  overflow-y: auto; 
-  -webkit-overflow-scrolling: touch;
+    flex-grow: 1; /* Permite que el contenido tome el espacio restante */
+    overflow-y: auto; /* Scroll dentro del contenido */
+    padding: var(--spacing-l);
+    padding-bottom: 70px; /* Espacio para el footer fijo */
 }
 
-/* Sección del saludo (.home__welcome) */
-.home__welcome { /* Mapeado a .home-header-content */
-  padding: 0 var(--spacing-l);
-  margin-bottom: var(--spacing-xl);
+/* Saludo */
+.home__welcome {
+    margin-bottom: var(--spacing-xl);
 }
 
-/* Mensaje de bienvenida (.home__welcome-message) */
-.home__welcome-message { 
-  font-size: var(--font-size-body);
-  color: var(--color-secondary-gray-text);
-  font-weight: var(--font-weight-regular);
-  margin-bottom: var(--spacing-xs);
+.home__welcome-message {
+    font-size: var(--font-size-body);
+    color: var(--color-secondary-gray-text);
+    margin-bottom: var(--spacing-xs);
 }
 
-/* Subtítulo de bienvenida (.home__welcome-subtitle) */
-.home__welcome-subtitle { 
-  font-size: var(--font-size-screen-title);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary-dark-text);
-  margin-bottom: 0;
+.home__welcome-subtitle {
+    font-size: 28px; /* Ligeramente más grande que tu variable standard */
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary-dark-text);
+    line-height: 1.2;
 }
 
-/* Sección de Pedido Rápido (.home__quick-order) */
-.home__quick-order { 
-  padding: 0 var(--spacing-l); 
-  margin-bottom: var(--spacing-xl); 
+
+/* ------------------ Fast Delivery (Items) ------------------ */
+
+.home__quick-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-m); /* Espacio entre items */
 }
 
-/* Ítem de empanada (.home__quick-item) */
-.home__quick-item { 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: var(--color-white);
-  border-radius: var(--border-radius-small);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  padding: var(--spacing-s) var(--spacing-m);
-  margin-bottom: var(--spacing-s);
+.home__quick-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    /* Fondo blanco y esquinas redondeadas (simulando bg-white rounded-lg) */
+    background-color: var(--color-white);
+    padding: var(--spacing-m);
+    border-radius: var(--border-radius-small);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
 }
 
-/* Nombre del ítem (.home__quick-name) */
+.home__item-info {
+   background-color: rgb(247, 247, 247);
+}
+
 .home__quick-name {
-  font-size: var(--font-size-body);
-  color: var(--color-primary-dark-text);
-  font-weight: var(--font-weight-medium);
-  flex-grow: 1;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary-dark-text);
 }
 
-/* Pie de Resumen (.home__summary) */
-.home__summary { 
-  padding: var(--spacing-m) var(--spacing-l);
-  background-color: var(--color-white);
-  box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
-  border-top: 1px solid var(--color-border-light);
+.home__quick-price {
+    font-size: var(--font-size-small); /* Necesitas una variable de fuente pequeña */
+    color: var(--color-secondary-gray-text);
 }
 
-/* Contenedor de Total (.home__total) */
+/* Controles de Cantidad */
+.home__quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-s); 
+}
+
+.home__quantity-btn {
+    /* Diseño circular minimalista */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    
+    /* Estilos de color para botones de control */
+    background-color: var(--color-primary-light); 
+    color: var(--color-primary); 
+    font-weight: var(--font-weight-bold);
+    transition: background-color 0.2s;
+}
+
+.home__quantity-btn:hover {
+    background-color: var(--color-primary); /* Color primario sólido en hover */
+    color: var(--color-white);
+}
+
+.home__quantity-display {
+    width: 24px;
+    text-align: center;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary-dark-text);
+}
+
+
+/* ------------------SUMMARY AND BTN------------------ */
+
+.home__summary {
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-m);
+    border-top: 1px solid var(--color-border-light);
+}
+
 .home__total {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: var(--spacing-m); 
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-l);
 }
 
-/* Etiqueta de Total (.home__total-label) */
-.home__total-label {
-  font-size: var(--font-size-section-title);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-primary-dark-text);
-}
-
-/* Valor de Total (.home__total-value) */
+.home__total-label,
 .home__total-value {
-  font-size: var(--font-size-screen-title);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary-dark-text);
+    font-size: var(--font-size-section-title); /* 18px */
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary-dark-text);
+}
+
+.home__btn-create-order {
+    /* Simula el botón de Crear Pedido full width */
+    width: 100%;
+    padding: var(--spacing-l) 0;
+    border-radius: var(--border-radius-small);
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    font-size: var(--font-size-section-title);
+    font-weight: var(--font-weight-bold);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.home__btn-create-order:disabled {
+    background-color: var(--color-secondary-gray-text); 
+    cursor: not-allowed;
+}
+
+
+/* ------------------ FOOTER (Navegación Móvil) ------------------ */
+
+.home__footer {
+    position: fixed; /* Lo fijamos al fondo */
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    
+    /* Centrado y límite de ancho */
+    max-width: 400px; 
+    margin: 0 auto;
+    
+    border-top: 1px solid var(--color-border-light);
+    background-color: var(--color-white-transparent); 
+    backdrop-filter: blur(5px);
+}
+
+.home__nav-mobile {
+    display: flex;
+    justify-content: space-around;
+    padding: var(--spacing-s) 0;
+}
+
+.home__nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    
+    color: var(--color-secondary-gray-text); /* Color por defecto inactivo */
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.home__nav-item--active,
+.home__nav-item:hover {
+    color: var(--color-primary); /* Ítem activo o en hover */
+}
+
+.home__nav-icon {
+    font-size: 24px; 
+}
+
+.home__nav-label {
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
 }

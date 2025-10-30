@@ -1,18 +1,39 @@
-// src/layout/MainLayout.jsx (VERSIÓN CORRECTA)
+import Header from "../components/header/Header";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import BtnBack from "../components/btnback/BtnBack";
+import React from "react";
 
-import Header from "../components/header/Header"; 
-import Footer from "../components/footer/Footer"; 
-import { Outlet } from "react-router-dom"; 
+const MainLayout = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
 
-export default function MainLayout() {
+  let leftIcon = null;
+  let rightIcon = null;
+  let onLeftClick = null;
+  let onRightClick = null;
+  let title = "Las empanadas en SU PUNTO";
+
+  if (location.pathname === "/home") {
+    rightIcon = <span className="material-symbols-outlined">person</span>;
+    onRightClick = () => navigate("/profile");
+  } else if (location.pathname === "/profile") {
+    leftIcon = <BtnBack />;
+    onLeftClick = () => navigate("/home");
+    title = "Mi perfil";
+  }
+
   return (
-    <div className="page-wrapper">
-      <Header />   
-      <main className="main-content">
-        <Outlet /> 
-      </main>
-      <Footer />      
-    </div>
-   
+    <>
+      <Header
+        title={title}
+        leftIcon={leftIcon}
+        onLeftClick={onLeftClick}
+        rightIcon={rightIcon}
+        onRightClick={onRightClick}
+      />
+      <Outlet /> {/* HomePage se renderiza aquí, incluyendo su footer */}
+    </>
   );
-}
+};
+
+export default MainLayout;

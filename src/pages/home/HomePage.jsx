@@ -1,127 +1,168 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; 
 import "./HomePage.css";
-import BtnBack from "../../components/btnback/BtnBack";
-import Footer from "../../components/footer/Footer";
-import "../../styles/Variables.css";
-import "../../styles/Base.css";
+
+// Importaciones de componentes
+import BtnBack from "../../components/btnback/BtnBack"; 
 import Header from "../../components/header/Header";
 
+// Importaciones de estilos se mantienen
+import "../../styles/Variables.css";
+import "../../styles/Base.css";
+
+// Estructura de las empanadas con precio real
+const EMPANADAS_DATA = [
+    { key: "carne", name: "Carne", price: 2.50 },
+    { key: "pollo", name: "Pollo", price: 2.50 },
+    { key: "vegetariana", name: "Vegetariana", price: 2.75 },
+    { key: "cecina", name: "Cecina y Queso Cabra", price: 3.00 },
+];
+
 const HomePage = () => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const [order, setOrder] = useState({
-    carne: 0,
-    pollo: 0,
-    vegetariana: 0,
-    cecina: 0,
-  });
+    // Lógica de estado y cálculo de totales
+    const [order, setOrder] = useState(
+        EMPANADAS_DATA.reduce((acc, item) => ({ ...acc, [item.key]: 0 }), {})
+    );
 
-  const handleQuantityChange = (item, delta) => {
-    setOrder((prev) => ({
-      ...prev,
-      [item]: Math.max(0, prev[item] + delta),
-    }));
-  };
+    const handleQuantityChange = (itemKey, delta) => {
+        setOrder((prev) => ({
+            ...prev,
+            [itemKey]: Math.max(0, prev[itemKey] + delta),
+        }));
+    };
+    
+    const totalPrice = EMPANADAS_DATA.reduce((acc, item) => {
+        const quantity = order[item.key] || 0;
+        return acc + (item.price * quantity);
+    }, 0).toFixed(2);
+    
+    const totalQuantity = Object.values(order).reduce((a, b) => a + b, 0);
 
-  const total = Object.values(order).reduce((a, b) => a + b, 0);
-  const totalPrice = total * 2.5; // ejemplo: cada empanada 2,5 €
+    const handleCreateOrder = () => {
+        if (totalQuantity === 0) return;
+        navigate("/order-summary", { state: { order, totalPrice } });
+    };
 
-  const handleCreateOrder = () => {
-    if (total === 0) return;
-    navigate("/order-summary", { state: { order, totalPrice } });
-  };
+    // FUNCIÓN DE NAVEGACIÓN PARA EL FOOTER
+    const handleNavigate = (path) => {
+        navigate(path);
+    };
 
-  return (
-    <div className="home">
-      {/* === HEADER === */}
-      <header className="home__header">
-        <div className="home__header-left">
-         <BtnBack />
+    
 
+    // --- PROPS PARA EL HEADER ---
+    // 1. Icono Izquierdo
+    const LeftIconComponent = <BtnBack />; 
+    
+    // 2. Icono Derecho
+    const RightIconComponent = (
+        <span className="material-symbols-outlined home__profile-icon">person</span>
+    );
+    
+    // NOTA: Se eliminó la variable PageTitle y su uso en el <Header>
 
-          <h1 className="home__logo">Fila-Zero</h1>
+    return (
+        <div className="home-screen"> 
+           
+
+            {/* === CONTENIDO PRINCIPAL === */}
+            <main className="home__content">
+                
+                {/* Saludo y Título */}
+                <div className="home__welcome">
+                    <p className="home__welcome-message">Hola, Sofía</p> 
+                    <h2 className="home__welcome-subtitle">
+                        ¡Lista para encargar tus empanadas favoritas!
+                    </h2>
+                </div>
+
+                {/* Sección de Pedido Rápido (Lista de Items) */}
+                <section className="home__quick-order">
+                    
+                    {/* Mapeo de Items de Empanadas */}
+                    <div className="home__quick-list">
+                        {EMPANADAS_DATA.map((item) => (
+                           <div key={item.key} className="home__quick-item">
+                                {/* Información del Item */}
+                                <div className="home__item-info">
+                                    <p className="home__quick-name">{item.name}</p>
+                                    <p className="home__quick-price">
+                                        {item.price.toFixed(2)}€
+                                    </p>
+                                </div>
+                                {/* Controles de Cantidad */}
+                                <div className="home__quantity-controls">
+                                    <button
+                                        className="home__quantity-btn home__quantity-btn--decrement"
+                                        onClick={() => handleQuantityChange(item.key, -1)}
+                                    >-</button>
+                                    <span className="home__quantity-display">
+                                        {order[item.key]}
+                                    </span>
+                                    <button
+                                        className="home__quantity-btn home__quantity-btn--increment"
+                                        onClick={() => handleQuantityChange(item.key, 1)}
+                                    >+</button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* === RESUMEN Y BOTÓN CREAR PEDIDO === */}
+                    <div className="home__summary">
+                        <div className="home__total">
+                            <span className="home__total-label">Total</span>
+                            <span className="home__total-value">
+                                {totalPrice} €
+                            </span>
+                        </div>
+                        <button
+                            type="button"
+                            className="home__btn-create-order"
+                            onClick={handleCreateOrder}
+                            disabled={totalQuantity === 0}
+                        >
+                            Crear Pedido
+                        </button>
+                    </div>
+                </section>
+            </main>
+            
+            {/* === FOOTER/NAVEGACIÓN MÓVIL (Fijo) - BLOQUE SOLICITADO === */}
+            <footer className="home__footer">
+                <nav className="home__nav-mobile">
+                    
+                    {/* Ítem Home (Activo) */}
+                    <a className="home__nav-item home__nav-item--active" onClick={() => handleNavigate("/home")}>
+                        <span className="material-symbols-outlined home__nav-icon"> home </span>
+                        <span className="home__nav-label">Home</span>
+                    </a>
+                    
+                    {/* Ítem Pedidos */}
+                    <a className="home__nav-item" onClick={() => handleNavigate("/orders")}>
+                        <span className="material-symbols-outlined home__nav-icon"> receipt_long </span>
+                        <span className="home__nav-label">Pedidos</span>
+                    </a>
+                    
+                    {/* Ítem Notificaciones */}
+                    <a className="home__nav-item" onClick={() => handleNavigate("/notifications")}>
+                        <span className="material-symbols-outlined home__nav-icon"> notifications </span>
+                        <span className="home__nav-label">Notificaciones</span>
+                    </a>
+                    
+                    {/* Ítem Perfil */}
+                    <a className="home__nav-item" onClick={() => handleNavigate("/profile")}>
+                        <span className="material-symbols-outlined home__nav-icon"> person </span>
+                        <span className="home__nav-label">Perfil</span>
+                    </a>
+                </nav>
+            </footer>
+            
         </div>
-        <div className="home__header-right">
-          <button
-            className="home__login-button"
-            onClick={() => navigate("/login")}
-          >
-            <svg
-              className="home__icon-login"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
-              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 
-              1.79-4 4 1.79 4 4 4zm0 2c-2.67 
-              0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-            </svg>
-            <span className="home__login-text">Login</span>
-          </button>
-        </div>
-      </header>
-
-      {/* === CONTENIDO PRINCIPAL === */}
-      <main className="home__content">
-        <div className="home__welcome">
-          <p className="home__welcome-message">Hola, Sofía</p>
-          <h1 className="home__welcome-subtitle">
-            ¡Lista para encargar tus empanadas favoritas!
-          </h1>
-        </div>
-
-        {/* === PEDIDO RÁPIDO === */}
-        <section className="home__quick-order">
-          {[
-            { key: "carne", name: "Empanada de Carne" },
-            { key: "pollo", name: "Empanada de Pollo" },
-            { key: "vegetariana", name: "Empanada Vegetariana" },
-            { key: "cecina", name: "Empanada Cecina y Queso Cabra" },
-          ].map((item) => (
-            <div key={item.key} className="home__quick-item">
-              <span className="home__quick-name">{item.name}</span>
-              <div className="home__quantity">
-                <button
-                  className="home__quantity-btn"
-                  onClick={() => handleQuantityChange(item.key, -1)}
-                >
-                  -
-                </button>
-                <span className="home__quantity-display">
-                  {order[item.key]}
-                </span>
-                <button
-                  className="home__quantity-btn"
-                  onClick={() => handleQuantityChange(item.key, 1)}
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          ))}
-
-          {/* === TOTAL Y BOTÓN === */}
-          <div className="home__summary">
-            <div className="home__total">
-              <span className="home__total-label">Total:</span>
-              <span className="home__total-value">
-                {totalPrice.toFixed(2)} €
-              </span>
-            </div>
-            <button
-              type="button"
-              className="home__btn-primary"
-              onClick={handleCreateOrder}
-              disabled={total === 0}
-            >
-              Crear Pedido
-            </button>
-          </div>
-        </section>
-      </main>
-    </div>
-  );
+    );
 };
+
 
 export default HomePage;
