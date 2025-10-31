@@ -1,0 +1,320 @@
+
+.page-delivery { 
+  /* Mantiene la estructura del body del HTML original (min-h-screen) */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; 
+  /* Estilos para el background y texto basados en Tailwind config */
+  /* background-color: var(--background-light);  */
+  color: var(--text-light);
+  font-family: var(--font-display);
+}
+
+.page-delivery__main { /* ¡ELEMENTO MODIFICADO! */
+  flex-grow: 1;
+  padding: 1rem; /* px-4 */
+  padding-top: 1rem; /* pt-4 */
+  padding-bottom: 6rem; /* pb-24 (para compensar el footer fijo) */
+  /* Adaptación del .order-detail-content */
+  overflow-y: auto;
+}
+
+.page-delivery__title { 
+  /* mb-6 */
+  margin-bottom: 1.5rem; 
+  /* text-xl font-bold */
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.page-delivery__grid {
+  /* space-y-4 */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/*
+  ===================================================================
+  Bloque: summary-card (Resumen del pedido)
+  ===================================================================
+*/
+.summary-card {
+  /* bg-background-light p-4 rounded-lg border border-border-light */
+  background-color: var(--background-light);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-light);
+}
+
+.summary-card__title {
+  /* font-bold text-lg mb-4 */
+  font-weight: 700;
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+}
+
+.summary-card__list {
+  /* space-y-3 */
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.summary-card__item {
+  /* flex justify-between items-center */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary-card__item-price {
+  /* font-medium */
+  font-weight: 500;
+}
+
+.summary-card__divider {
+  /* my-4 border-t border-border-light */
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.summary-card__total {
+  /* flex justify-between items-center font-bold text-lg */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+/*
+  ===================================================================
+  Bloque: info-card (Estado y Turno)
+  ===================================================================
+*/
+.status-queue-group {
+  /* grid grid-cols-2 gap-4 */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.info-card {
+  /* bg-background-light p-4 rounded-lg border border-border-light text-center */
+  background-color: var(--background-light);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-light);
+  text-align: center;
+}
+
+.info-card__label {
+  /* text-sm text-subtle-light mb-1 */
+  font-size: 0.875rem;
+  color: var(--subtle-light);
+  margin-bottom: 0.25rem;
+}
+
+.info-card__value {
+  /* font-bold text-lg */
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+.info-card__value--primary {
+  /* text-primary */
+  color: var(--primary);
+}
+
+
+/*
+  ===================================================================
+  Bloque: pickup-card (Retiro Estimado y Tiempo Restante)
+  ===================================================================
+*/
+.pickup-card {
+  /* Estilos base compartidos */
+  padding: 1rem;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.pickup-card__label {
+  /* text-sm font-medium mb-1 */
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.pickup-card__value {
+  /* font-bold text-xl */
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--text-light); /* Hereda del padre si no tiene modificador */
+}
+
+/* Modificador para Retiro Estimado */
+.pickup-card--estimated {
+  /* bg-primary/20 */
+  background-color: rgba(var(--primary-rgb), 0.2); 
+}
+
+.pickup-card--estimated .pickup-card__label,
+.pickup-card--estimated .pickup-card__value {
+  /* text-primary */
+  color: var(--primary);
+}
+
+/* Modificador para Tiempo Restante */
+.pickup-card--remaining {
+  /* bg-gray-200/50 */
+  background-color: rgba(192, 192, 192, 0.5); /* Asumiendo un tono gris claro */
+}
+
+.pickup-card--remaining .pickup-card__label {
+  /* text-subtle-light */
+  color: var(--subtle-light);
+}
+
+/*
+  ===================================================================
+  Bloque: modal y status-item (Modal de Estados)
+  ===================================================================
+*/
+.modal {
+  /* Adaptación de .modal.is-open, el display: none/flex lo maneja React */
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 50; /* Alto z-index */
+}
+
+.modal__content {
+  /* bg-background-light rounded-xl p-6 w-full max-w-sm */
+  background-color: var(--background-light);
+  border-radius: 0.75rem; /* rounded-xl */
+  padding: 1.5rem; /* p-6 */
+  width: 100%;
+  max-width: 24rem; /* max-w-sm */
+}
+
+.modal__header {
+  /* flex justify-between items-center mb-4 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.modal__title {
+  /* text-lg font-bold */
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.modal__close-button {
+  /* p-2 -mr-2 */
+  padding: 0.5rem;
+  margin-right: -0.5rem;
+}
+
+.modal__body {
+  /* space-y-4 */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.status-item {
+  /* flex items-center */
+  display: flex;
+  align-items: center;
+}
+
+.status-item__indicator {
+  /* w-3 h-3 rounded-full mr-3 */
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.status-item__title {
+  /* font-semibold */
+  font-weight: 600;
+}
+
+.status-item__description {
+  /* text-sm text-subtle-light */
+  font-size: 0.875rem;
+  color: var(--subtle-light);
+}
+
+/* Estilos de colores específicos para la leyenda */
+.status-item__indicator.bg-amber-500 { background-color: #f59e0b; } /* Color de 'En preparación' */
+.status-item__indicator.bg-green-500 { background-color: #10b981; } /* Color de 'Listo' */
+.status-item__indicator.bg-red-500 { background-color: #ef4444; } /* Color de 'Cancelado' */
+
+/*
+  ===================================================================
+  Componentes de Layout Reutilizables (Simulación de Imports)
+  ===================================================================
+*/
+
+/* --- Placeholder para Footer --- */
+.footer {
+    /* fixed bottom-0 left-0 right-0 */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* bg-background-light border-t border-border-light */
+    background-color: var(--background-light);
+    border-top: 1px solid var(--border-light);
+    /* pb-safe (se manejaría con CSS variables o padding fijo) */
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.footer__nav {
+    /* flex justify-around items-center px-4 py-2 */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.nav-item {
+    /* flex flex-col items-center gap-1 text-subtle-light */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--subtle-light);
+    text-decoration: none;
+}
+
+.nav-item--active {
+    /* text-primary */
+    color: var(--primary);
+}
+
+.nav-item__icon {
+    /* material-symbols-outlined */
+    font-size: 1.5rem; /* 24px opsz */
+}
+
+.nav-item__label {
+    /* text-xs font-medium */
+    font-size: 0.75rem;
+    font-weight: 500;
+}

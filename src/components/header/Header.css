@@ -1,0 +1,63 @@
+/* ======================================= */
+/* Component: Header General Reutilizable */
+/* ======================================= */
+
+.app-header {
+  width: 100%;
+  max-width: 375px;
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--spacing-l) var(--spacing-m);
+  background-color: var(--color-white);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Contenedor laterals */
+.app-header-left,
+.app-header-right {
+  display: flex;
+  align-items: center;
+  width: 48px; 
+  justify-content: center;
+}
+
+/* Title center */
+.app-header-title {
+  flex-grow: 1;
+  text-align: center;
+  font-size: var(--font-size-screen-title);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-dark-text);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Btn icons */
+.header-icon-button {
+  background: none;
+  border: none;
+  padding: var(--spacing-xs);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-secondary-gray-text);
+  transition: color 0.2s ease;
+}
+
+.header-icon-button:hover {
+  color: var(--color-primary-dark-text);
+}
+
+.header-icon-button svg,
+.header-icon-button img {
+  width: 24px;
+  height: 24px;
+  display: block;
+}

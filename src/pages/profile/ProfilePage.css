@@ -1,0 +1,86 @@
+/* Bloque Principal: .profile (Reemplaza .profile-screen) */
+.profile {
+  /* ... (Estilos existentes del .profile-screen) ... */
+  display: flex; /* Asumo que es un contenedor flex para scroll */
+  flex-direction: column;
+}
+
+/* Elemento: .profile__header (Reemplaza .profile-header) */
+.profile__header {
+  /* ... (Estilos existentes del .profile-header) ... */
+}
+
+/* Elemento: .profile__title (Reemplaza .profile-title) */
+.profile__title {
+  /* ... (Estilos existentes del .profile-title) ... */
+}
+
+/* Elemento: Contenido principal (Reemplaza .profile-content) */
+.profile__content {
+  flex-grow: 1;
+  padding: 0 var(--spacing-l);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: var(--spacing-xl); /* Espacio al final */
+}
+
+/* Elemento: Sección de datos del usuario (Reemplaza .user-data-section) */
+.profile__data-section {
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-card);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  padding: var(--spacing-m);
+  margin-bottom: var(--spacing-xxl); /* Más espacio antes de los botones */
+}
+
+/* Elemento: Título de sección (Reemplaza .section-title) */
+.profile__section-title {
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary-dark-text);
+  margin-bottom: var(--spacing-m);
+  border-bottom: 1px solid var(--color-border-light);
+  padding-bottom: var(--spacing-s);
+}
+
+/* Elemento: Fila de datos individual (Reemplaza .data-item) */
+.profile__data-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-s) 0;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.profile__data-item:last-child {
+  border-bottom: none; /* No hay borde en el último elemento */
+}
+
+/* Modificador: Ocultar campo Bizum */
+.profile__data-item--bizum { /* Usamos un modificador para Bizum */
+    display: none; 
+}
+
+/* Elemento: Etiqueta del dato (Reemplaza .data-label) */
+.profile__data-label {
+  font-size: var(--font-size-body);
+  color: var(--color-secondary-gray-text);
+  font-weight: var(--font-weight-regular);
+}
+
+/* Elemento: Valor del dato (Reemplaza .data-value) */
+.profile__data-value {
+  font-size: var(--font-size-body);
+  color: var(--color-primary-dark-text);
+  font-weight: var(--font-weight-medium);
+  text-align: right;
+}
+
+/* Elemento: Contenedor de botones (Reemplaza .profile-actions) */
+.profile__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m); /* Espacio entre botones */
+  padding: 0 var(--spacing-l); /* Mismo padding horizontal que el contenido */
+  margin-bottom: var(--spacing-xl); 
+}

@@ -1,0 +1,54 @@
+/* B: Bloque Principal - register */
+.register {
+    padding: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.register__title,
+.register__subtitle {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+/* E: Elemento - La Cuadrícula de 2 columnas */
+.register__grid {
+    display: grid;
+    /* Define la cuadrícula para que tenga 2 columnas de igual tamaño */
+    grid-template-columns: 1fr 1fr; 
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* E: Elemento - Campo de formulario individual (se usa tanto dentro como fuera de la cuadrícula) */
+.register__field {
+    display: flex;
+    flex-direction: column;
+}
+
+/* E: Elemento - Etiqueta */
+.register__label {
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+}
+
+/* E: Elemento - Input */
+.register__input {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* E: Elemento - Contenedor del botón */
+.register__button-container {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+/* M: Modificador (para la versión móvil, si es necesario) */
+/* Rompe la cuadrícula y haz que los campos ocupen todo el ancho en pantallas pequeñas */
+@media (max-width: 500px) {
+    .register__grid {
+        grid-template-columns: 1fr; /* Una sola columna para móviles */
+    }
+}
