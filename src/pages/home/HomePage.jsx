@@ -2,13 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; 
 import "./HomePage.css";
 
-// Importaciones de componentes
-import BtnBack from "../../components/btnback/BtnBack"; 
-import Header from "../../components/header/Header";
-
-// Importaciones de estilos se mantienen
-import "../../styles/Variables.css";
-import "../../styles/Base.css";
+import Footer from "../../components/footer/Footer";
 
 // Estructura de las empanadas con precio real
 const EMPANADAS_DATA = [
@@ -21,10 +15,11 @@ const EMPANADAS_DATA = [
 const HomePage = () => {
     const navigate = useNavigate();
 
-    // Lógica de estado y cálculo de totales
+    // Estado del pedido
     const [order, setOrder] = useState(
         EMPANADAS_DATA.reduce((acc, item) => ({ ...acc, [item.key]: 0 }), {})
     );
+    const [isBizumModalOpen, setIsBizumModalOpen] = useState(false);
 
     const handleQuantityChange = (itemKey, delta) => {
         setOrder((prev) => ({
@@ -33,6 +28,7 @@ const HomePage = () => {
         }));
     };
     
+    // ✅ CALCULAR TOTAL CON useMemo o en render
     const totalPrice = EMPANADAS_DATA.reduce((acc, item) => {
         const quantity = order[item.key] || 0;
         return acc + (item.price * quantity);
@@ -40,37 +36,27 @@ const HomePage = () => {
     
     const totalQuantity = Object.values(order).reduce((a, b) => a + b, 0);
 
-    const handleCreateOrder = () => {
+    // Abrir modal Bizum
+    const handleOpenBizum = () => {
         if (totalQuantity === 0) return;
-        navigate("/order-summary", { state: { order, totalPrice } });
+        setIsBizumModalOpen(true);
     };
 
-    // FUNCIÓN DE NAVEGACIÓN PARA EL FOOTER
-    const handleNavigate = (path) => {
-        navigate(path);
+    // Cerrar modal
+    const handleCloseBizum = () => {
+        setIsBizumModalOpen(false);
     };
 
-    
-
-    // --- PROPS PARA EL HEADER ---
-    // 1. Icono Izquierdo
-    const LeftIconComponent = <BtnBack />; 
-    
-    // 2. Icono Derecho
-    const RightIconComponent = (
-        <span className="material-symbols-outlined home__profile-icon">person</span>
-    );
-    
-    // NOTA: Se eliminó la variable PageTitle y su uso en el <Header>
+    // Simulación de enviar pago y navegar a Delivery
+    const handleSendBizum = () => {
+        setIsBizumModalOpen(false);
+        navigate("/delivery", { state: { order, totalPrice } });
+    };
 
     return (
-        <div className="home-screen"> 
-           
-
-            {/* === CONTENIDO PRINCIPAL === */}
+        <div className="home-screen">
+            {/* Contenido principal */}
             <main className="home__content">
-                
-                {/* Saludo y Título */}
                 <div className="home__welcome">
                     <p className="home__welcome-message">Hola, Sofía</p> 
                     <h2 className="home__welcome-subtitle">
@@ -78,91 +64,88 @@ const HomePage = () => {
                     </h2>
                 </div>
 
-                {/* Sección de Pedido Rápido (Lista de Items) */}
                 <section className="home__quick-order">
-                    
-                    {/* Mapeo de Items de Empanadas */}
                     <div className="home__quick-list">
                         {EMPANADAS_DATA.map((item) => (
-                           <div key={item.key} className="home__quick-item">
-                                {/* Información del Item */}
+                            <div key={item.key} className="home__quick-item">
                                 <div className="home__item-info">
                                     <p className="home__quick-name">{item.name}</p>
                                     <p className="home__quick-price">
                                         {item.price.toFixed(2)}€
                                     </p>
                                 </div>
-                                {/* Controles de Cantidad */}
                                 <div className="home__quantity-controls">
                                     <button
                                         className="home__quantity-btn home__quantity-btn--decrement"
                                         onClick={() => handleQuantityChange(item.key, -1)}
-                                    >-</button>
-                                    <span className="home__quantity-display">
-                                        {order[item.key]}
-                                    </span>
+                                        type="button"
+                                    >
+                                        -
+                                    </button>
+                                    <span className="home__quantity-display">{order[item.key]}</span>
                                     <button
                                         className="home__quantity-btn home__quantity-btn--increment"
                                         onClick={() => handleQuantityChange(item.key, 1)}
-                                    >+</button>
+                                        type="button"
+                                    >
+                                        +
+                                    </button>
                                 </div>
                             </div>
                         ))}
                     </div>
 
-                    {/* === RESUMEN Y BOTÓN CREAR PEDIDO === */}
+                    {/* ✅ RESUMEN SIEMPRE VISIBLE */}
                     <div className="home__summary">
                         <div className="home__total">
                             <span className="home__total-label">Total</span>
-                            <span className="home__total-value">
-                                {totalPrice} €
-                            </span>
+                            <span className="home__total-value">{totalPrice} €</span>
                         </div>
                         <button
                             type="button"
                             className="home__btn-create-order"
-                            onClick={handleCreateOrder}
+                            onClick={handleOpenBizum}
                             disabled={totalQuantity === 0}
                         >
-                            Crear Pedido
+                            Bizum
                         </button>
                     </div>
                 </section>
             </main>
-            
-            {/* === FOOTER/NAVEGACIÓN MÓVIL (Fijo) - BLOQUE SOLICITADO === */}
-            <footer className="home__footer">
-                <nav className="home__nav-mobile">
-                    
-                    {/* Ítem Home (Activo) */}
-                    <a className="home__nav-item home__nav-item--active" onClick={() => handleNavigate("/home")}>
-                        <span className="material-symbols-outlined home__nav-icon"> home </span>
-                        <span className="home__nav-label">Home</span>
-                    </a>
-                    
-                    {/* Ítem Pedidos */}
-                    <a className="home__nav-item" onClick={() => handleNavigate("/orders")}>
-                        <span className="material-symbols-outlined home__nav-icon"> receipt_long </span>
-                        <span className="home__nav-label">Pedidos</span>
-                    </a>
-                    
-                    {/* Ítem Notificaciones */}
-                    <a className="home__nav-item" onClick={() => handleNavigate("/notifications")}>
-                        <span className="material-symbols-outlined home__nav-icon"> notifications </span>
-                        <span className="home__nav-label">Notificaciones</span>
-                    </a>
-                    
-                    {/* Ítem Perfil */}
-                    <a className="home__nav-item" onClick={() => handleNavigate("/profile")}>
-                        <span className="material-symbols-outlined home__nav-icon"> person </span>
-                        <span className="home__nav-label">Perfil</span>
-                    </a>
-                </nav>
-            </footer>
-            
+
+            <Footer />
+
+            {/* ✅ MODAL BIZUM - CLASES RENOMBRADAS */}
+{isBizumModalOpen && (
+    <div className="bizum-modal-overlay" onClick={handleCloseBizum}>
+        <div className="bizum-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="bizum-modal-header">
+                <span
+                    className="material-symbols-outlined bizum-modal-close-icon"
+                    onClick={handleCloseBizum}
+                >
+                    close
+                </span>
+                <h3>Simulación Bizum</h3>
+            </div>
+            <div className="bizum-modal-body">
+                <p><strong>Teléfono:</strong> 600123456</p>
+                <p><strong>Subtotal:</strong> {totalPrice} €</p>
+            </div>
+            <div className="bizum-modal-footer">
+                <button 
+                    className="home__btn-create-order" 
+                    onClick={handleSendBizum}
+                    type="button"
+                >
+                    Enviar
+                </button>
+            </div>
+        </div>
+    </div>
+)}
         </div>
     );
 };
-
 
 export default HomePage;

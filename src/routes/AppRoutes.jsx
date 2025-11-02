@@ -32,7 +32,8 @@ export default function AppRoutes() {
 
         {/* Ruta de Profile */}
         <Route path="/profile" element={<ProfilePage />} />
-       
+
+               
         {/* Ruta de Delivery */}
         <Route path="/delivery" element={<DeliveryPage />} />
 

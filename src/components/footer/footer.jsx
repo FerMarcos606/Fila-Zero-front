@@ -1,69 +1,62 @@
-// AppFooter.jsx - Componente de Footer Reutilizable de Fila-Zero
+import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import './Footer.css'; 
 
-import React from 'react';
-// Importamos Link para navegación SPA y useLocation para resaltar el enlace activo
-import { Link, useLocation } from 'react-router-dom'; 
-import './Footer.css'; // Usamos los estilos CSS
-
-// 1. Array de Enlaces (FOOTER_LINKS) - Insertado directamente para evitar problemas de importación
 const FOOTER_LINKS = [
-    {
-        id: 1,
-        label: 'Inicio',
-        icon: 'home',
-        href: '/', // Redirige a HomePage
-    },
-    {
-        id: 2,
-        label: 'Pedidos',
-        icon: 'receipt_long',
-        href: '/pedidos', // Redirige a DeliveryPage/OrderPage
-    },
-    {
-        id: 3,
-        label: 'Notificaciones',
-        icon: 'notifications',
-        href: '/notificaciones', // Define la ruta futura
-    },
-    {
-        id: 4,
-        label: 'Perfil',
-        icon: 'person',
-        href: '/perfil', // Redirige a ProfilePage
-    },
+    { id: 1, label: 'Inicio', icon: 'home', href: '/home', type: 'link' },
+    { id: 2, label: 'Pedidos', icon: 'receipt_long', href: '/delivery', type: 'link' },
+    { id: 3, label: 'Perfil', icon: 'person', href: '/profile', type: 'link' },
+    { id: 4, label: 'Notificaciones', icon: 'notifications', href: '', type: 'modal' },
 ];
 
 const AppFooter = () => {
-    // 2. Obtiene la ruta actual para determinar qué enlace está activo
+    const navigate = useNavigate();
     const location = useLocation();
+    const [showNotifications, setShowNotifications] = useState(false);
+
+    const handleLinkClick = (link) => {
+        if (link.type === 'link') {
+            navigate(link.href);
+        } else if (link.type === 'modal') {
+            setShowNotifications(true);
+        }
+    };
 
     return (
-        <footer className="delivery-footer">
-            <nav className="delivery-footer__nav">
-                {/* 3. Mapea la lista de enlaces para generar los 4 íconos funcionales */}
-                {FOOTER_LINKS.map((link) => {
-                    
-                    // Comprueba si la ruta actual coincide con el href
-                    const isActive = location.pathname === link.href;
-
-                    return (
-                        // 4. Usa el componente <Link> con la propiedad 'to' para la redirección
-                        <Link
-                            key={link.id}
-                            // Aplica la clase 'nav-item--active' si isActive es true
-                            className={`nav-item ${isActive ? 'nav-item--active' : ''}`}
-                            to={link.href} // El destino de la navegación
-                        >
-                            {/* Ícono de Material Symbols */}
-                            <span className="material-symbols-outlined">{link.icon}</span>
-                            
-                            {/* Etiqueta del enlace */}
-                            <span className="nav-item__label">{link.label}</span>
-                        </Link>
-                    );
-                })}
-            </nav>
+        <>
+        <footer className="mobile-nav-bar">
+            {FOOTER_LINKS.map((link) => {
+                const isActive = location.pathname === link.href;
+                return (
+                    <div
+                        key={link.id}
+                        className={`nav-item ${isActive ? 'nav-item--active' : ''}`}
+                        onClick={() => handleLinkClick(link)}
+                    >
+                        <span className="material-symbols-outlined nav-item-icon">{link.icon}</span>
+                        <span className="nav-item-label">{link.label}</span>
+                    </div>
+                );
+            })}
         </footer>
+
+        {/* Modal de Notificaciones */}
+        {showNotifications && (
+            <div className="modal-overlay">
+                <div className="modal-content">
+                    <button 
+                        className="modal-close-btn"
+                        onClick={() => setShowNotifications(false)}
+                        aria-label="Cerrar notificaciones"
+                    >
+                        ← Volver
+                    </button>
+                    <h3>Última Notificación</h3>
+                    <p>Tienes un nuevo pedido listo para recoger.</p>
+                </div>
+            </div>
+        )}
+        </>
     );
 };
 
