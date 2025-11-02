@@ -1,247 +1,151 @@
 import React, { useState, useEffect } from 'react';
-import "./DeliveryPage.css"; 
+import { useOutletContext, useNavigate } from 'react-router-dom';
+import Header from '../../components/header/Header';
+import Footer from '../../components/footer/Footer'; 
+import './DeliveryPage.css'; 
 
-
-/**
- * Componente principal que representa la página de Delivery/Detalles de Pedido,
- * incluyendo la lógica de temporizador y cambio de estado automático.
- */
 const DeliveryPage = () => {
-  // 1. ESTADOS DINÁMICOS
-  const [status, setStatus] = useState("En preparación");
-  const [statusColor, setStatusColor] = useState("amber"); 
-  const [timeRemaining, setTimeRemaining] = useState("Cargando...");
+  const { onRequestInfoModal } = useOutletContext() || {};
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // 2. DATOS DEL PEDIDO (simulando una API response)
-  const orderData = {
-    id: '12345',
-    items: [
-      { name: 'Empanada de carne', quantity: 2, price: 5.00 },
-      { name: 'Empanada de pollo', quantity: 1, price: 2.50 },
-      { name: 'Empanada de jamón y queso', quantity: 1, price: 2.50 },
-      { name: 'Empanada de humita', quantity: 1, price: 2.50 },
-    ],
-    total: 12.50,
-    estimatedPickup: "2025-10-30T18:00:00", // Hora de ejemplo
-    queueNumber: 3,
-  };
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
+  const handleOpenLogoutModal = () => console.log('Logout modal opened');
 
-  // 3. LÓGICA DEL TEMPORIZADOR Y CAMBIO DE ESTADO
+  const [statusPedido, setStatusPedido] = useState('preparacion');
+  const TIEMPO_INICIAL_SEGUNDOS = 900; 
+  const [tiempoRestante, setTiempoRestante] = useState(TIEMPO_INICIAL_SEGUNDOS);
+  const [mostrarCola, setMostrarCola] = useState(false);
+
   useEffect(() => {
-    const updateTimer = () => {
-      const now = new Date();
-      const pickupTime = new Date(orderData.estimatedPickup);
-      let diffMs = pickupTime - now;
+    if (onRequestInfoModal) {
+      onRequestInfoModal(handleOpenModal);
+    }
+  }, [onRequestInfoModal]);
 
-      if (diffMs <= 0) {
-        setStatus("Listo para retirar");
-        setStatusColor("green");
-        setTimeRemaining("00:00");
-        return; 
-      }
-
-      const totalSeconds = Math.floor(diffMs / 1000);
-      const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, "0");
-      const seconds = String(totalSeconds % 60).padStart(2, "0");
-      setTimeRemaining(`${minutes}:${seconds}`);
-      
-      if (status === "Cargando..." || status === "En preparación") {
-         setStatus("En preparación");
-         setStatusColor("amber");
-      }
-    };
-
-    updateTimer(); 
-    const interval = setInterval(updateTimer, 1000);
-
-    return () => clearInterval(interval);
-  }, [orderData.estimatedPickup, status]); 
-
-
-  // --- Handlers de Navegación y Modal ---
-  const handleBack = () => {
-    console.log('Navegar hacia atrás (Implementar lógica de React Router o history.back)');
-    // Aquí deberías usar useNavigate() de react-router-dom
+  const formatTime = (totalSeconds) => {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    const pad = (num) => num.toString().padStart(2, '0');
+    return hours > 0
+      ? `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`
+      : `${pad(minutes)}:${pad(seconds)}`;
   };
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
 
+  useEffect(() => {
+    if (tiempoRestante <= 0) return;
+    const intervalId = setInterval(() => setTiempoRestante(prev => prev - 1), 1000);
+    return () => clearInterval(intervalId);
+  }, [tiempoRestante]);
+
+  useEffect(() => {
+    const timerEstado = setTimeout(() => setStatusPedido('listo'), 6000);
+    return () => clearTimeout(timerEstado);
+  }, []); 
+
+  useEffect(() => {
+    setMostrarCola(statusPedido === 'listo');
+  }, [statusPedido]);
+
+  const obtenerEstadoTexto = () => {
+    switch (statusPedido) {
+      case 'preparacion': return 'En Preparación';
+      case 'listo': return 'Listo para Retirar';
+      case 'retirado': return 'Retirado';
+      default: return 'Cargando...';
+    }
+  };
 
   return (
-    <div className="page-delivery"> 
+    <div className="delivery-page">
       <Header
-        title="Detalles del pedido"
-        subtitle="Tu Pedido"
+        title="Las empanadas en SU PUNTO"
         leftIcon={<span className="material-symbols-outlined">arrow_back</span>}
         rightIcon={<span className="material-symbols-outlined">info</span>}
-        onLeftClick={handleBack}
-        onRightClick={openModal}
+        onLeftClick={() => navigate('/home')}
+        onRightClick={handleOpenModal}
+        onLogoutClick={handleOpenLogoutModal}
       />
+     
+      <main className="delivery-main">
+        <div className="delivery-main__section-title">
+          <h2 className="delivery-main__order-id">Tu Pedido</h2>
+        </div>
 
-      <main className="page-delivery__main">
-        <h2 className="page-delivery__title">Pedido #{orderData.id}</h2>
-        
-        <div className="page-delivery__grid">
-          <OrderSummary summary={orderData.items} total={orderData.total} />
-          
-          <div className="status-queue-group">
-            <StatusCard status={status} statusColor={statusColor} />
-            <TimeRemainingCard time={timeRemaining} /> 
+        <div className="delivery-main__container">
+          <div className="summary-card">
+            <h3 className="summary-card__title">Resumen del pedido</h3>
+            <div className="summary-card__item-list">
+              <div className="summary-card__item"><p>Empanada de carne (x2)</p><p className="summary-card__price">$5.00</p></div>
+              <div className="summary-card__item"><p>Empanada de pollo (x1)</p><p className="summary-card__price">$2.50</p></div>
+              <div className="summary-card__item"><p>Empanada de jamón y queso (x1)</p><p className="summary-card__price">$2.50</p></div>
+              <div className="summary-card__item"><p>Empanada de humita (x1)</p><p className="summary-card__price">$2.50</p></div>
+            </div>
+            <hr className="summary-card__divider" />
+            <div className="summary-card__total"><p>Total</p><p>$12.50</p></div>
+            <p className="summary-card__thanks">¡Gracias Por su Compra!</p>
           </div>
 
-          <EstimatedPickupCard estimatedPickup={orderData.estimatedPickup} />
+          <div className="grid-status">
+            <div className="status-box">
+              <p className="status-box__label">Estado</p>
+              <p className="status-box__value status-box__value--primary">{obtenerEstadoTexto()}</p>
+            </div>
+            <div className="status-box">
+              <p className="status-box__label">Tu Turno</p>
+              <p className="status-box__value">#3</p>
+            </div>
+          </div>
+
+          <div className="eta-box">
+            <p className="eta-box__label">Retiro Estimado</p>
+            <p className="eta-box__value">15 de julio, 18:00 hs</p>
+          </div>
+          
+          <div className="time-left-box">
+            <p className="time-left-box__label">Faltan aprox.</p>
+            <p className="time-left-box__value">
+              {tiempoRestante > 0 ? formatTime(tiempoRestante) : '¡Listo!'}
+            </p>
+            {mostrarCola && (
+              <p className="time-left-box__queue-info">
+                Tu lugar en la cola es: <span className="time-left-box__queue-number">#05</span>
+              </p>
+            )}
+          </div>
         </div>
       </main>
-      
+
       <Footer />
-      <StatusModal isOpen={isModalOpen} onClose={closeModal} />
-    </div>
-  );
-};
 
-// --- COMPONENTES REUSABLES DEFINIDOS EN ESTE ARCHIVO ---
-
-/**
- * Header adaptado a los props que usaste en el return.
- */
-const Header = ({ title, subtitle, leftIcon, rightIcon, onLeftClick, onRightClick }) => (
-  <header className="header">
-    <div className="header__content">
-      <button className="header__button header__button--back" onClick={onLeftClick}>
-        {leftIcon}
-      </button>
-      <div className="header__text-group">
-        <h1 className="header__title">{title}</h1>
-        <p className="header__subtitle">{subtitle}</p>
-      </div>
-      <button className="header__button header__button--info" onClick={onRightClick}>
-        {rightIcon}
-      </button>
-    </div>
-  </header>
-);
-
-const OrderSummary = ({ summary, total }) => (
-  <div className="summary-card">
-    <h3 className="summary-card__title">Resumen del pedido</h3>
-    <div className="summary-card__list">
-      {summary.map((item, index) => (
-        <div className="summary-card__item" key={index}>
-          <p className="summary-card__item-name">{item.name} (x{item.quantity})</p>
-          <p className="summary-card__item-price">${item.price.toFixed(2)}</p>
-        </div>
-      ))}
-    </div>
-    <hr className="summary-card__divider" />
-    <div className="summary-card__total">
-      <p className="summary-card__total-label">Total</p>
-      <p className="summary-card__total-amount">${total.toFixed(2)}</p>
-    </div>
-  </div>
-);
-
-const StatusCard = ({ status, statusColor }) => {
-    const colorClass = `text-${statusColor}`; 
-    return (
-        <div className="info-card info-card--status">
-            <p className="info-card__label">Estado</p>
-            <p className={`info-card__value info-card__value--primary ${colorClass}`}>{status}</p>
-        </div>
-    );
-};
-
-const TimeRemainingCard = ({ time }) => (
-  <div className="info-card info-card--queue">
-    <p className="info-card__label">Faltan aprox.</p>
-    <p className="info-card__value info-card__value--large">{time}</p>
-  </div>
-);
-
-const EstimatedPickupCard = ({ estimatedPickup }) => {
-    const formatTime = (isoString) => {
-        if (!isoString) return 'N/A';
-        const date = new Date(isoString);
-        return date.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }) + ' hs';
-    };
-
-    return (
-        <div className="pickup-card pickup-card--estimated">
-            <p className="pickup-card__label">Hora de Retiro Estimada</p>
-            <p className="pickup-card__value pickup-card__value--primary">{formatTime(estimatedPickup)}</p>
-        </div>
-    );
-};
-
-
-const Footer = () => (
-  <footer className="footer">
-    <nav className="footer__nav">
-      <NavItem icon="home" label="Inicio" isActive={false} href="#" />
-      <NavItem icon="receipt_long" label="Pedidos" isActive={true} href="#" />
-      <NavItem icon="notifications" label="Notificaciones" isActive={false} href="#" />
-      <NavItem icon="person" label="Perfil" isActive={false} href="#" />
-    </nav>
-  </footer>
-);
-
-const NavItem = ({ icon, label, isActive, href }) => (
-  <a className={`nav-item ${isActive ? 'nav-item--active' : ''}`} href={href}>
-    <span className="material-symbols-outlined nav-item__icon">{icon}</span>
-    <span className="nav-item__label">{label}</span>
-  </a>
-);
-
-// --- Componentes Modales ---
-
-const StatusModal = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
-
-  return (
-    <div className={`modal ${isOpen ? 'modal--is-open' : ''}`} onClick={(e) => {
-        if (e.target.classList.contains('modal')) {
-            onClose();
-        }
-    }}>
-      <div className="modal__content">
-        <div className="modal__header">
-          <h3 className="modal__title">Estados del Pedido</h3>
-          <button className="modal__close-button" onClick={onClose}>
-            <span className="material-symbols-outlined">close</span>
-          </button>
-        </div>
-        <div className="modal__body">
-          <StatusItem 
-            color="bg-amber-500" 
-            title="En preparación" 
-            description="Tu pedido se está cocinando." 
-          />
-          <StatusItem 
-            color="bg-green-500" 
-            title="Listo para retirar" 
-            description="¡Tu pedido está listo! Acércate a retirarlo." 
-          />
-          <StatusItem 
-            color="bg-red-500" 
-            title="Cancelado" 
-            description="Tu pedido ha sido cancelado." 
-          />
+      <div className={`modal ${isModalOpen ? 'is-open' : ''}`} onClick={handleCloseModal}>
+        <div className="modal__content" onClick={(e) => e.stopPropagation()}>
+          <div className="modal__header">
+            <h3 className="modal__title">Estados del Pedido</h3>
+            <button className="modal__close-btn" onClick={handleCloseModal}>
+              <span className="material-symbols-outlined">close</span>
+            </button>
+          </div>
+          <div className="modal__body">
+            <div className="modal__status-item">
+              <span className="modal__status-dot modal__status-dot--amber"></span>
+              <div><p className="modal__status-title">En preparación</p><p className="modal__status-desc">Tu pedido se está cocinando.</p></div>
+            </div>
+            <div className="modal__status-item">
+              <span className="modal__status-dot modal__status-dot--green"></span>
+              <div><p className="modal__status-title">Listo para retirar</p><p className="modal__status-desc">¡Tu pedido está listo! Acércate a retirarlo.</p></div>
+            </div>
+            <div className="modal__status-item">
+              <span className="modal__status-dot modal__status-dot--red"></span>
+              <div><p className="modal__status-title">Cancelado</p><p className="modal__status-desc">Tu pedido ha sido cancelado.</p></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 };
-
-
-const StatusItem = ({ color, title, description }) => (
-  <div className="status-item">
-
-    <span className={`status-item__indicator ${color}`}></span>
-    <div className="status-item__text-group">
-      <p className="status-item__title">{title}</p>
-      <p className="status-item__description">{description}</p>
-    </div>
-  </div>
-);
 
 export default DeliveryPage;

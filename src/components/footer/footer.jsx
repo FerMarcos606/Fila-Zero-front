@@ -1,35 +1,70 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import "./Footer.css";
+// AppFooter.jsx - Componente de Footer Reutilizable de Fila-Zero
 
-import homeIcon from '../../assets/icon/home.svg';
-import UserIcon from '../../assets/icon/account_box.svg';
-import OrderIcon from '../../assets/icon/order.svg';
-import BellIcon from '../../assets/icon/notifications.svg';
+import React from 'react';
+// Importamos Link para navegación SPA y useLocation para resaltar el enlace activo
+import { Link, useLocation } from 'react-router-dom'; 
+import './Footer.css'; // Usamos los estilos CSS
 
-export default function Footer() {
-  return (
-    <nav className="mobile-nav-bar">
-      <NavLink to="/home" className="nav-item">
-        <img src={homeIcon} className="nav-item-icon" alt="Home" />
-        <span>Inicio</span>
-      </NavLink>
+// 1. Array de Enlaces (FOOTER_LINKS) - Insertado directamente para evitar problemas de importación
+const FOOTER_LINKS = [
+    {
+        id: 1,
+        label: 'Inicio',
+        icon: 'home',
+        href: '/', // Redirige a HomePage
+    },
+    {
+        id: 2,
+        label: 'Pedidos',
+        icon: 'receipt_long',
+        href: '/pedidos', // Redirige a DeliveryPage/OrderPage
+    },
+    {
+        id: 3,
+        label: 'Notificaciones',
+        icon: 'notifications',
+        href: '/notificaciones', // Define la ruta futura
+    },
+    {
+        id: 4,
+        label: 'Perfil',
+        icon: 'person',
+        href: '/perfil', // Redirige a ProfilePage
+    },
+];
 
-      <NavLink to="/pedidos" className="nav-item">
-        <img src={OrderIcon} className="nav-item-icon" alt="Home" />
-        <span>Pedidos</span>
-        <div className="nav-item-badge"></div> {/* ejemplo de notificación */}
-      </NavLink>
+const AppFooter = () => {
+    // 2. Obtiene la ruta actual para determinar qué enlace está activo
+    const location = useLocation();
 
-      <NavLink to="/notificaciones" className="nav-item">
-        <img src={BellIcon} className="nav-item-icon" />
-        <span>Alertas</span>
-      </NavLink> 
+    return (
+        <footer className="delivery-footer">
+            <nav className="delivery-footer__nav">
+                {/* 3. Mapea la lista de enlaces para generar los 4 íconos funcionales */}
+                {FOOTER_LINKS.map((link) => {
+                    
+                    // Comprueba si la ruta actual coincide con el href
+                    const isActive = location.pathname === link.href;
 
-      <NavLink to="/perfil" className="nav-item">
-         <img src={UserIcon} className="nav-item-icon" alt="Home" />
-        <span>Perfil</span>
-      </NavLink>
-    </nav>
-  );
-}
+                    return (
+                        // 4. Usa el componente <Link> con la propiedad 'to' para la redirección
+                        <Link
+                            key={link.id}
+                            // Aplica la clase 'nav-item--active' si isActive es true
+                            className={`nav-item ${isActive ? 'nav-item--active' : ''}`}
+                            to={link.href} // El destino de la navegación
+                        >
+                            {/* Ícono de Material Symbols */}
+                            <span className="material-symbols-outlined">{link.icon}</span>
+                            
+                            {/* Etiqueta del enlace */}
+                            <span className="nav-item__label">{link.label}</span>
+                        </Link>
+                    );
+                })}
+            </nav>
+        </footer>
+    );
+};
+
+export default AppFooter;

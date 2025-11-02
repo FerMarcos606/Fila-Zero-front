@@ -1,53 +1,79 @@
-// src/components/Header/Header.jsx
-import React from "react";
+import React, { useState } from "react";
 import "./Header.css";
+import LogoutIconSVG from "../../assets/icon/logout.svg";
+import { useNavigate } from "react-router-dom";
 
+const Header = ({ title, leftIcon, rightIcon, onLeftClick,onRightClick }) => {
+  const navigate = useNavigate();
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
-const Header = ({ 
-    title = "Las empandas en SU PUNTO", // <-- ÚNICA FUENTE DE TÍTULO (valor por defecto)
-    subtitle, // nuevo subtítulo opcional
-    leftIcon, 
-    rightIcon, 
-    onLeftClick, 
-    onRightClick,
-}) => {
-    
-    return (
-        <header className="app-header">
-            
-            {/* LADO IZQUIERDO (Icono de Volver) */}
-            <div className="app-header-left">
-                {leftIcon && (
-                    <button
-                        className="header-icon-button"
-                        onClick={onLeftClick}
-                        aria-label="Volver"
-                    >
-                        {leftIcon}
-                    </button>
-                )}
+  const handleLogoutClick = () => {
+    console.log("🔘 Logout icon clicked");
+    setShowLogoutModal(true);
+  };
+
+  const handleCancelLogout = () => {
+    setShowLogoutModal(false);
+  };
+
+  const handleConfirmLogout = () => {
+    setShowLogoutModal(false);
+    navigate("/login"); // o tu ruta inicial
+  };
+
+  return (
+    <>
+      <header className="app-header">
+        <div className="app-header-left" onClick={onLeftClick}>
+          {leftIcon}
+        </div>
+
+        <h1 className="app-header-title">{title}</h1>
+
+        <div className="app-header-right">
+          {rightIcon ? (
+            <button
+              className="header-icon-button"
+              onClick={onRightClick}
+              aria-label="Acción derecha"
+            >
+              {rightIcon}
+            </button>
+          ) : (
+            // <button
+            //   className="header-icon-button"
+            //   onClick={handleLogoutClick}
+            //   aria-label="Cerrar sesión"
+            // >
+            //   <img src={LogoutIconSVG} alt="logout" />
+            // </button>
+
+              )}
+        </div>
+      </header>
+
+      {/* Modal de confirmación */}
+      {showLogoutModal && (
+        <div className="modal-overlay" onClick={handleCancelLogout}>
+          <div
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()} // Evita cerrar al hacer clic dentro
+          >
+            <span className="material-symbols-outlined modal-icon">logout</span>
+            <h2>¿Estás seguro que quieres cerrar sesión?</h2>
+            <div className="modal-actions">
+              <button className="btn-cancel" onClick={handleCancelLogout}>
+                Cancelar
+              </button>
+              <button className="btn-confirm" onClick={handleConfirmLogout}>
+                Cerrar sesión
+              </button>
             </div>
-
-            {/* CENTRO: El texto renderizado es la prop 'title' */}
-            <div className="header__center">
-                <h3 className="header__title">{title}</h3>
-                {subtitle && <p className="header__subtitle">{subtitle}</p>}
-            </div>
-
-            {/* LADO DERECHO (Icono de Perfil/Acción) */}
-            <div className="app-header-right">
-                {rightIcon && (
-                    <button
-                        className="header-icon-button"
-                        onClick={onRightClick}
-                        aria-label="Acción"
-                    >
-                        {rightIcon}
-                    </button>
-                )}
-            </div>
-        </header>
-    );
+          </div>
+        </div>
+      )}
+    </>
+  );
 };
 
 export default Header;

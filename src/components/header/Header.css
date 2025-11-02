@@ -4,7 +4,7 @@
 
 .app-header {
   width: 100%;
-  max-width: 375px;
+  max-width: 575px;
   margin: 0 auto;
   padding: var(--spacing-xl) var(--spacing-l) var(--spacing-m);
   background-color: var(--color-white);
@@ -60,4 +60,61 @@
   width: 24px;
   height: 24px;
   display: block;
+}
+
+/* ============================= */
+/* Modal logout confirm */
+/* ============================= */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal-content {
+  background-color: var(--color-white);
+  color: var(--color-primary-dark-text);
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 320px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modal-icon {
+  font-size: 48px;
+  color: red;
+  margin-bottom: 1rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.btn-cancel,
+.btn-confirm {
+  flex: 1;
+  height: 48px;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-cancel {
+  background-color: #ddd;
+  color: #333;
+}
+
+.btn-confirm {
+  background-color: #e53935;
+  color: white;
 }
