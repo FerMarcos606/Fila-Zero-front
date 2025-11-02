@@ -72,7 +72,7 @@ const MainLayout = () => {
 
         case "/profile":
             // Mantenemos la flecha a Home y el Logout por defecto
-            title = "Mi perfil";
+            title = "Fila - Zero";
             break;
     }
 

@@ -1,53 +1,89 @@
-import React  from 'react';
-import Button from "../../components/button/Button"; 
-// NOTA: 'GenericModal' o 'BottomSheetModal' sería un componente genérico que 
-// maneja el overlay, las animaciones y el 'onClose'. Lo usaremos aquí implícitamente.
+import React, { useState } from "react";
+import Button from "../../components/button/Button";
 
-const GenericModal = ({ isOpen, onClose, initialData }) => {
-    
-    // El formulario de edición necesita su propio estado (ProfileEditForm ya tiene su lógica)
-    // Para simplicidad, aquí solo manejamos el UI del modal.
+const GenericModal = ({ isOpen, onClose, initialData, onSave }) => {
+  const [formData, setFormData] = useState(initialData);
 
-    // B: Bloque principal del modal (usando la clase que adaptamos: .modal__edit-profile)
-    return (
-        <div className={`modal modal--bottom-sheet ${isOpen ? 'modal--show' : ''}`}>
-            <div className="modal__edit-profile">
-                
-                {/* E: Encabezado del modal (edit-profile-modal-header -> modal__edit-profile-header) */}
-                <div className="modal__edit-profile-header">
-                    <h3 className="modal__edit-profile-title">Editar Perfil</h3>
-                    <button 
-                        type="button" 
-                        className="modal__edit-profile-close-button" 
-                        onClick={onClose}
-                    >
-                        &times;
-                    </button>
-                </div>
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
-                {/* E: Formulario de edición (edit-profile-form -> modal__edit-profile-form) */}
-                <form className="modal__edit-profile-form">
-                    
-                    {/* NOTA: Aquí irían los campos del ProfileEditForm.jsx */}
-                    {/* Reutilizando la estructura .register__field que ya hicimos */}
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setFormData(prev => ({ ...prev, imageUrl: event.target.result }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
-                    <div className="register__field">
-                        <label htmlFor="edit-nombre" className="register__label">Nombre</label>
-                        <input type="text" id="edit-nombre" name="nombre" defaultValue={initialData.name} className="register__input" />
-                    </div>
-                    {/* ... otros campos: Apellidos, DNI, Teléfono ... */}
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSave(formData);
+  };
 
-                    {/* E: Acciones (edit-profile-actions -> modal__edit-profile-actions) */}
-                    <div className="modal__edit-profile-actions">
-                        <Button text="Cancelar" variant="secondary" onClick={onClose} />
-                        <Button text="Guardar Cambios" variant="primary" type="submit" />
-                    </div>
-                </form>
-            </div>
-            {/* Opcional: El overlay en sí para cerrar al clickear fuera */}
-            <div className="modal__overlay" onClick={onClose}></div> 
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        {/* Header con ArrowLeft para volver */}
+        <div className="modal__edit-profile-header">
+          <button type="button" className="modal__back-button" onClick={onClose}>
+            {/* Icono volver */}
+            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/>
+            </svg>
+          </button>
+          <h3>Editar Perfil</h3>
         </div>
-    );
+
+        {/* Formulario */}
+        <form onSubmit={handleSubmit} className="modal__edit-profile-form">
+          <div className="register__field">
+            <label>Avatar</label>
+            <input type="file" onChange={handleFileChange} />
+            {formData.imageUrl && (
+              <img src={formData.imageUrl} alt="avatar preview" style={{ width: "80px", borderRadius: "50%", marginTop: "0.5rem" }} />
+            )}
+          </div>
+          <div className="register__field">
+            <label>Nombre</label>
+            <input type="text" name="name" value={formData.name} onChange={handleChange} />
+          </div>
+          <div className="register__field">
+            <label>Primer Apellido</label>
+            <input type="text" name="firstSurname" value={formData.firstSurname} onChange={handleChange} />
+          </div>
+          <div className="register__field">
+            <label>Segundo Apellido</label>
+            <input type="text" name="secondSurname" value={formData.secondSurname} onChange={handleChange} />
+          </div>
+          <div className="register__field">
+            <label>DNI</label>
+            <input type="text" name="dni" value={formData.dni} onChange={handleChange} />
+          </div>
+          <div className="register__field">
+            <label>Email</label>
+            <input type="email" name="email" value={formData.email} onChange={handleChange} />
+          </div>
+          <div className="register__field">
+            <label>Teléfono</label>
+            <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} />
+          </div>
+
+          {/* Botones */}
+          <div className="modal__edit-profile-actions" style={{ display: "flex", justifyContent: "space-between", marginTop: "1rem" }}>
+            <Button text="Cancelar" variant="secondary" onClick={onClose} />
+            <Button text="Guardar Cambios" variant="primary" type="submit" />
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 };
 
 export default GenericModal;

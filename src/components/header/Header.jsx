@@ -34,21 +34,12 @@ const Header = ({ title, leftIcon, rightIcon, onLeftClick,onRightClick }) => {
           {rightIcon ? (
             <button
               className="header-icon-button"
-              onClick={onRightClick}
+              onClick={onRightClick ? onRightClick : handleLogoutClick}
               aria-label="Acción derecha"
             >
               {rightIcon}
             </button>
-          ) : (
-            // <button
-            //   className="header-icon-button"
-            //   onClick={handleLogoutClick}
-            //   aria-label="Cerrar sesión"
-            // >
-            //   <img src={LogoutIconSVG} alt="logout" />
-            // </button>
-
-              )}
+          ) : null}
         </div>
       </header>
 
@@ -66,7 +57,7 @@ const Header = ({ title, leftIcon, rightIcon, onLeftClick,onRightClick }) => {
                 Cancelar
               </button>
               <button className="btn-confirm" onClick={handleConfirmLogout}>
-                Cerrar sesión
+                Confirmar
               </button>
             </div>
           </div>

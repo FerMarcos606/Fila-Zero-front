@@ -5,7 +5,7 @@ import LoginPage from "../pages/login/LoginPage";
 import LoaderPage from "../pages/LoaderPage";
 import HomePage from '../pages/home/HomePage';
 import RegistrationPage from '../pages/registration/RegistrationPage';
-import ProfilePage from "../pages/profile/ProfilePage";
+import ProfilePage from '../pages/profile/ProfilePage';
 import DeliveryPage from '../pages/delivery/DeliveryPage';
 
 
@@ -32,7 +32,7 @@ export default function AppRoutes() {
 
         {/* Ruta de Profile */}
         <Route path="/profile" element={<ProfilePage />} />
-
+       
         {/* Ruta de Delivery */}
         <Route path="/delivery" element={<DeliveryPage />} />
 
