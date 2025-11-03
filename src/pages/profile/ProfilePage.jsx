@@ -1,8 +1,8 @@
-// src/pages/profile/ProfilePage.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GenericModal from "../../components/modal/GenericModal";
 import "./ProfilePage.css";
+import Footer from '../../components/footer/Footer';
 
 const ArrowLeftIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
@@ -18,20 +18,45 @@ const LogoutIcon = () => (
 
 const ProfilePage = ({ onLogout }) => {
   const navigate = useNavigate();
+  
+  // Función para obtener datos de localStorage
+  const getUserData = () => {
+    const saved = localStorage.getItem('userData');
+    console.log("📖 Leyendo localStorage:", saved);
+    
+    if (saved) {
+      return JSON.parse(saved);
+    }
+    
+    // Valores por defecto si no hay nada guardado
+    return {
+      imageUrl: "https://lh3.googleusercontent.com/aida-public/AB6AXuBHfP-xaT45kIoCmxtNUrjRNRpbpk0Y8cvvuf55jxySXQT0b46ORG5MA4H7tAq9fMYXiWnWzLbsxBRwQboBCRGe2RGart0jAjmxr_oVJKOmly7B7uYZ1HVlmSfAy9co-kMcadpjQcFUHck86qPSZQVXDHwiJy8Ir3jRkxxxUibTQXiUn611HQTa7eMBqceBkEtzgiiiYtwF2cbpTvjvTjDr0qbr9Vo5tYwZq2mmvy-ne9Ey9qeuLalWdluUY-EjLhH5oGHuP4BMODLQ",
+      name: "",
+      firstSurname: "",
+      secondSurname: "",
+      dni: "",
+      email: "",
+      phoneNumber: "",
+    };
+  };
+
+  const [userData, setUserData] = useState(getUserData());
   const [showModal, setShowModal] = useState(false);
-  const [userData] = useState({
-    imageUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBHfP-xaT45kIoCmxtNUrjRNRpbpk0Y8cvvuf55jxySXQT0b46ORG5MA4H7tAq9fMYXiWnWzLbsxBRwQboBCRGe2RGart0jAjmxr_oVJKOmly7B7uYZ1HVlmSfAy9co-kMcadpjQcFUHck86qPSZQVXDHwiJy8Ir3jRkxxxUibTQXiUn611HQTa7eMBqceBkEtzgiiiYtwF2cbpTvjvTjDr0qbr9Vo5tYwZq2mmvy-ne9Ey9qeuLalWdluUY-EjLhH5oGHuP4BMODLQ",
-    name: "Sofía",
-    firstSurname: "García",
-    secondSurname: "López",
-    dni: "12345678A",
-    email: "sofia.garcia@email.com",
-    phoneNumber: "+34 678 123 456",
-  });
+  
+  console.log("👤 userData actual:", userData);
 
   const handleGoBack = () => navigate(-1);
   const handleModalToggle = () => setShowModal(!showModal);
+  
+  const handleSave = (updatedData) => {
+  // Guardar en localStorage primero
+  localStorage.setItem('userData', JSON.stringify(updatedData));
+  console.log("💾 Datos actualizados:", updatedData);
+  
+  // Crear un nuevo objeto para forzar re-render
+  setUserData({...updatedData});
+  setShowModal(false);
+};
 
   return (
     <div className="profile-root">
@@ -47,46 +72,56 @@ const ProfilePage = ({ onLogout }) => {
           </button>
         </header>
 
-         <section className="profile-card">
+        {/* === Tarjeta de perfil === */}
+        <section className="profile-card">
           <div className="profile-card__content">
-            <div className="profile-card__avatar" style={{ backgroundImage: `url(${userData.imageUrl})` }}></div>
-
+            <div 
+              className="profile-card__avatar" 
+              style={{ backgroundImage: `url(${userData.imageUrl})` }}
+            ></div>
+            
             <div className="profile-card__info">
               <p className="profile-card__name">
                 {userData.name} {userData.firstSurname} {userData.secondSurname}
               </p>
-              <p className="profile-card__detail">DNI: {userData.dni}</p>
-              <p className="profile-card__detail">{userData.email}</p>
-              <p className="profile-card__detail">Tel: {userData.phoneNumber}</p>
+              {userData.dni && <p className="profile-card__detail">DNI: {userData.dni}</p>}
+              {userData.email && <p className="profile-card__detail">{userData.email}</p>}
+              {userData.phoneNumber && <p className="profile-card__detail">Tel: {userData.phoneNumber}</p>}
             </div>
           </div>
 
           {/* === Botón editar perfil === */}
           <div className="profile-actions">
-            <button type="button" className="profile-actions__button profile-actions__button--primary" onClick={handleModalToggle}>
+            <button 
+              type="button" 
+              className="profile-actions__button profile-actions__button--primary" 
+              onClick={handleModalToggle}
+            >
               Editar perfil
             </button>
           </div>
         </section>
 
-        {/* Modal: Usando el GenericModal */}
+        {/* === Modal de edición === */}
         <GenericModal
-            isOpen={showModal}
-            onClose={() => setShowModal(false)}
-            initialData={userData}
-            onSave={(updatedData) => {
-                userData(updatedData); 
-                setShowModal(false);       
-    }}
-/>
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          initialData={userData}
+          onSave={handleSave}
+        />
 
+          <Footer />
       </main>
     </div>
+
+    
   );
 };
 
 ProfilePage.defaultProps = {
   onLogout: () => console.log("Logout Clicked"),
 };
+
+  
 
 export default ProfilePage;

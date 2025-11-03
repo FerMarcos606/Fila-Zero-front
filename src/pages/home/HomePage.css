@@ -262,3 +262,135 @@
   padding-top: 10px;
   border-top: 1px solid #eee;
 }
+
+/* ProductModal dentro de HomePage */
+
+/* Overlay semi-transparente */
+.product-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+}
+
+/* Contenedor del modal */
+.product-modal-content {
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-button);
+  width: 90%;          /* Más ancho que antes */
+  max-width: 400px;    /* Ajusta según tu diseño */
+  max-height: 90%;
+  overflow-y: auto;
+  padding: var(--spacing-m);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Header con título y botón cerrar */
+.product-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-m);
+}
+
+.product-modal-header h3 {
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
+  margin: 0;
+  text-align: center;
+  flex: 1;
+}
+
+.product-modal-close-icon {
+  font-size: 24px;
+  cursor: pointer;
+  color: white;
+}
+
+/* Imagen de la empanada */
+.product-modal-image {
+  width: 100%;       
+  height: 16rem;  
+  object-fit: center; 
+  border-radius: var(--border-radius-small);
+  margin-bottom: var(--spacing-m);
+}
+
+/* Nombre y precio */
+.product-modal-name {
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing-xxs);
+}
+
+.product-modal-price {
+  font-size: var(--font-size-screen-title);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--spacing-s);
+}
+
+/* Descripción */
+.product-modal-description {
+  font-size: var(--font-size-body);
+  color: var(--color-secondary-gray-text);
+  line-height: 1.5;
+  margin-bottom: var(--spacing-m);
+}
+
+/* Controles de cantidad */
+.product-modal-quantity {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-s);
+  margin-bottom: var(--spacing-m);
+}
+
+.product-modal-quantity button {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--color-border-light);
+  background: none;
+  border-radius: 4px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.product-modal-quantity span {
+  min-width: 24px;
+  text-align: center;
+  font-weight: var(--font-weight-bold);
+}
+
+/* Botón de añadir al pedido */
+.product-modal-add-btn {
+  width: 100%;
+  padding: var(--spacing-s);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-bold);
+  background-color: var(--color-primary-brand);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--border-radius-button);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.product-modal-add-btn:hover {
+  background-color: darken(var(--color-primary-brand), 10%);
+}
+
+/* Scroll si el contenido es muy alto */
+.product-modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.product-modal-content::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}

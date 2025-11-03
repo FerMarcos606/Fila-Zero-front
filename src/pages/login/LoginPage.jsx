@@ -71,7 +71,7 @@ const LoginPage = () => {
             ¿No tienes una cuenta? 
             {/* Asumo que la ruta de registro es /register o /registro */}
             <span 
-                onClick={() => navigate("/register")} 
+                onClick={() => navigate("/registration")} 
                 className="login__register-text"
             >
                 ¡Regístrate!

@@ -23,19 +23,19 @@ export default function AppRoutes() {
       {/* Página de inicio de sesión */}
       <Route path="/login" element={<LoginPage />} />
 
-      {/* Rutas que usan el layout principal */}
+      {/* Ruta de Registro */}
+      <Route path="/registration" element={<RegistrationPage />} />
+
+      {/* Ruta de Profile */}
+      <Route path="/profile" element={<ProfilePage />} />
+
+     {/* Rutas que usan el layout principal */}
       <Route element={<MainLayout />}>
         <Route path="/home" element={<HomePage />} />
 
-    {/* Ruta de Registro */}
-        <Route path="/register" element={<RegistrationPage />} />
-
-        {/* Ruta de Profile */}
-        <Route path="/profile" element={<ProfilePage />} />
-
-               
-        {/* Ruta de Delivery */}
-        <Route path="/delivery" element={<DeliveryPage />} />
+                    
+      {/* Ruta de Delivery */}
+      <Route path="/delivery" element={<DeliveryPage />} />
 
       </Route>
     </Routes>

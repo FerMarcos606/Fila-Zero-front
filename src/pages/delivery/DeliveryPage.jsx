@@ -1,17 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { useOutletContext, useNavigate } from 'react-router-dom';
+import { useOutletContext, useNavigate, useLocation } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import Footer from '../../components/footer/Footer'; 
 import './DeliveryPage.css'; 
 
+// Datos fijos de empanadas para mostrar nombre y precio
+const EMPANADAS_DATA = [
+  { key: "carne", name: "Carne", price: 2.50 },
+  { key: "pollo", name: "Pollo", price: 2.50 },
+  { key: "vegetariana", name: "Vegetariana", price: 2.75 },
+  { key: "cecina", name: "Cecina y Queso Cabra", price: 3.00 },
+];
+
 const DeliveryPage = () => {
   const { onRequestInfoModal } = useOutletContext() || {};
   const navigate = useNavigate();
+  const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
   const handleOpenLogoutModal = () => console.log('Logout modal opened');
+
+  // ✅ Recuperar datos del pedido desde HomePage
+  const { order = {}, totalPrice = "0.00" } = location.state || {};
 
   const [statusPedido, setStatusPedido] = useState('preparacion');
   const TIEMPO_INICIAL_SEGUNDOS = 900; 
@@ -61,33 +73,47 @@ const DeliveryPage = () => {
   return (
     <div className="delivery-page">
       <Header
-        title="Las empanadas en SU PUNTO"
+        title="Tu Pedido"
         leftIcon={<span className="material-symbols-outlined">arrow_back</span>}
         rightIcon={<span className="material-symbols-outlined">info</span>}
         onLeftClick={() => navigate('/home')}
-        onRightClick={handleOpenModal}
+        onRightClick={handleOpenModal} // no se toca
         onLogoutClick={handleOpenLogoutModal}
       />
      
       <main className="delivery-main">
         <div className="delivery-main__section-title">
-          <h2 className="delivery-main__order-id">Tu Pedido</h2>
+          <h2 className="delivery-main__order-id">Resumen del pedido</h2>
         </div>
 
         <div className="delivery-main__container">
+          {/* ✅ Lista dinámica de pedido */}
           <div className="summary-card">
-            <h3 className="summary-card__title">Resumen del pedido</h3>
             <div className="summary-card__item-list">
-              <div className="summary-card__item"><p>Empanada de carne (x2)</p><p className="summary-card__price">$5.00</p></div>
-              <div className="summary-card__item"><p>Empanada de pollo (x1)</p><p className="summary-card__price">$2.50</p></div>
-              <div className="summary-card__item"><p>Empanada de jamón y queso (x1)</p><p className="summary-card__price">$2.50</p></div>
-              <div className="summary-card__item"><p>Empanada de humita (x1)</p><p className="summary-card__price">$2.50</p></div>
+              {EMPANADAS_DATA.map((item) => {
+                const qty = order[item.key] || 0;
+                if (qty === 0) return null; // mostrar solo >0
+                return (
+                  <div key={item.key} className="summary-card__item">
+                    <p>{item.name} (x{qty})</p>
+                    <p className="summary-card__price">
+                      €{(item.price * qty).toFixed(2)}
+                    </p>
+                  </div>
+                );
+              })}
             </div>
+
             <hr className="summary-card__divider" />
-            <div className="summary-card__total"><p>Total</p><p>$12.50</p></div>
-            <p className="summary-card__thanks">¡Gracias Por su Compra!</p>
+
+            <div className="summary-card__total">
+              <p>Total</p>
+              <p>€{parseFloat(totalPrice).toFixed(2)}</p>
+            </div>
+            <p className="summary-card__thanks">¡Gracias por su compra!</p>
           </div>
 
+          {/* Estado y turno */}
           <div className="grid-status">
             <div className="status-box">
               <p className="status-box__label">Estado</p>
@@ -120,6 +146,7 @@ const DeliveryPage = () => {
 
       <Footer />
 
+      {/* Modal de info existente, no tocamos */}
       <div className={`modal ${isModalOpen ? 'is-open' : ''}`} onClick={handleCloseModal}>
         <div className="modal__content" onClick={(e) => e.stopPropagation()}>
           <div className="modal__header">
@@ -131,15 +158,24 @@ const DeliveryPage = () => {
           <div className="modal__body">
             <div className="modal__status-item">
               <span className="modal__status-dot modal__status-dot--amber"></span>
-              <div><p className="modal__status-title">En preparación</p><p className="modal__status-desc">Tu pedido se está cocinando.</p></div>
+              <div>
+                <p className="modal__status-title">En preparación</p>
+                <p className="modal__status-desc">Tu pedido se está cocinando.</p>
+              </div>
             </div>
             <div className="modal__status-item">
               <span className="modal__status-dot modal__status-dot--green"></span>
-              <div><p className="modal__status-title">Listo para retirar</p><p className="modal__status-desc">¡Tu pedido está listo! Acércate a retirarlo.</p></div>
+              <div>
+                <p className="modal__status-title">Listo para retirar</p>
+                <p className="modal__status-desc">¡Tu pedido está listo! Acércate a retirarlo.</p>
+              </div>
             </div>
             <div className="modal__status-item">
               <span className="modal__status-dot modal__status-dot--red"></span>
-              <div><p className="modal__status-title">Cancelado</p><p className="modal__status-desc">Tu pedido ha sido cancelado.</p></div>
+              <div>
+                <p className="modal__status-title">Cancelado</p>
+                <p className="modal__status-desc">Tu pedido ha sido cancelado.</p>
+              </div>
             </div>
           </div>
         </div>
