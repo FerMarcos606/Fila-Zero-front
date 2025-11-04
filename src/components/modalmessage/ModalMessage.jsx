@@ -56,7 +56,7 @@ const ModalMessage = ({
               </button>
             )}
             
-            <Link to="/profile">
+            <Link to="/home">
               <button 
                 className="modal__button modal__button--primary"
                 onClick={onPrimaryClick}

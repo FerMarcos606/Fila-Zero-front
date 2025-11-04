@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import "./Header.css";
-import LogoutIconSVG from "../../assets/icon/logout.svg";
-import { useNavigate } from "react-router-dom";
 
-const Header = ({ title, leftIcon, rightIcon, onLeftClick,onRightClick }) => {
-  const navigate = useNavigate();
+const Header = ({ title, leftIcon, rightIcon, secondRightIcon, onLeftClick, onRightClick, onSecondRightClick }) => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const handleLogoutClick = () => {
@@ -18,7 +15,7 @@ const Header = ({ title, leftIcon, rightIcon, onLeftClick,onRightClick }) => {
 
   const handleConfirmLogout = () => {
     setShowLogoutModal(false);
-    navigate("/login"); // o tu ruta inicial
+    window.location.href = "https://tusitioexterno.com";
   };
 
   return (
@@ -31,15 +28,28 @@ const Header = ({ title, leftIcon, rightIcon, onLeftClick,onRightClick }) => {
         <h1 className="app-header-title">{title}</h1>
 
         <div className="app-header-right">
-          {rightIcon ? (
+          {/* PRIMER ICONO DERECHA */}
+          {rightIcon && (
             <button
               className="header-icon-button"
-              onClick={onRightClick ? onRightClick : handleLogoutClick}
+              onClick={onRightClick}
               aria-label="Acción derecha"
             >
               {rightIcon}
             </button>
-          ) : null}
+          )}
+          
+          {/* SEGUNDO ICONO DERECHA (LOGOUT) */}
+          {secondRightIcon && (
+            <button
+              className="header-icon-button"
+              onClick={onSecondRightClick || handleLogoutClick}
+              aria-label="Logout"
+              style={{ marginLeft: '8px' }}
+            >
+              {secondRightIcon}
+            </button>
+          )}
         </div>
       </header>
 
@@ -48,7 +58,7 @@ const Header = ({ title, leftIcon, rightIcon, onLeftClick,onRightClick }) => {
         <div className="modal-overlay" onClick={handleCancelLogout}>
           <div
             className="modal-content"
-            onClick={(e) => e.stopPropagation()} // Evita cerrar al hacer clic dentro
+            onClick={(e) => e.stopPropagation()}
           >
             <span className="material-symbols-outlined modal-icon">logout</span>
             <h2>¿Estás seguro que quieres cerrar sesión?</h2>

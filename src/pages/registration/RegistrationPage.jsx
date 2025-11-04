@@ -18,7 +18,7 @@ const RegistrationPage = () => {
 
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-  const handleGoToProfile = () => {
+  const handleGoToHome = () => {
     // Guardar datos en localStorage
     const userDataToSave = {
       name: formData.name,
@@ -33,7 +33,7 @@ const RegistrationPage = () => {
     localStorage.setItem('userData', JSON.stringify(userDataToSave));
     console.log("💾 Datos guardados:", userDataToSave);
     
-    navigate("/profile");
+    navigate("/home");
   };
 
   const handleChange = (e) => {
@@ -168,8 +168,8 @@ const RegistrationPage = () => {
         type="success"
         title="¡Registro exitoso!"
         message="Tu cuenta ha sido creada correctamente."
-        primaryButtonText="Ir a mi perfil"
-        onPrimaryClick={handleGoToProfile}
+        primaryButtonText="Ir a Pedido"
+        onPrimaryClick={handleGoToHome}
       />
     </div>
   );

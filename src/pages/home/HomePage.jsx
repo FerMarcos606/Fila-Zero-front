@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; 
 import "./HomePage.css";
 import detalleEmpanadaImg from "../../assets/imgs/detalleempanada.jpg";
-detalleEmpanadaImg
-
+import Header from "../../components/header/Header"; // ⬅️ FALTABA ESTE IMPORT
 import Footer from "../../components/footer/Footer";
 
 // Estructura de las empanadas con precio, descripción e imagen
@@ -83,6 +82,14 @@ const HomePage = () => {
 
     return (
         <div className="home-screen">
+            <Header
+                title="Tus empanadas en su punto"
+                leftIcon={<span className="material-symbols-outlined">arrow_back</span>}
+                rightIcon={<span className="material-symbols-outlined">logout</span>}
+                onLeftClick={() => navigate(-1)} // o navigate('/ruta-anterior')
+                onRightClick={null}
+            />
+
             {/* Contenido principal */}
             <main className="home__content">
                 <div className="home__welcome">
@@ -151,7 +158,7 @@ const HomePage = () => {
                                 className="material-symbols-outlined bizum-modal-close-icon"
                                 onClick={handleCloseBizum}
                             >close</span>
-                            <h3>Simulación Bizum</h3>
+                            <h3>Pago Bizum</h3>
                         </div>
                         <div className="bizum-modal-body">
                             <p><strong>Teléfono:</strong> 600123456</p>
@@ -169,35 +176,34 @@ const HomePage = () => {
             )}
 
             {/* Modal Producto */}
-                {isProductModalOpen && selectedEmpanada && (
-                    <div className="product-modal-overlay" onClick={() => setIsProductModalOpen(false)}>
-                        <div className="product-modal-content" onClick={(e) => e.stopPropagation()}>
-                            <button className="modal-close-btn" onClick={() => setIsProductModalOpen(false)}>✕</button>
+            {isProductModalOpen && selectedEmpanada && (
+                <div className="product-modal-overlay" onClick={() => setIsProductModalOpen(false)}>
+                    <div className="product-modal-content" onClick={(e) => e.stopPropagation()}>
+                        <button className="modal-close-btn" onClick={() => setIsProductModalOpen(false)}>✕</button>
 
-                            <img 
-            src={detalleEmpanadaImg} 
-            alt={selectedEmpanada.name} 
-            className="product-modal-image" 
-        />
+                        <img 
+                            src={detalleEmpanadaImg} 
+                            alt={selectedEmpanada.name} 
+                            className="product-modal-image" 
+                        />
 
+                        <h2>{selectedEmpanada.name}</h2>
+                        <p>{selectedEmpanada.description}</p>
+                        <p>Precio: {selectedEmpanada.price.toFixed(2)} €</p>
 
-            <h2>{selectedEmpanada.name}</h2>
-            <p>{selectedEmpanada.description}</p>
-            <p>Precio: {selectedEmpanada.price.toFixed(2)} €</p>
-
-            {/* Botón añadir al pedido */}
-            <button
-                className="home__btn-create-order"
-                onClick={() => {
-                    handleQuantityChange(selectedEmpanada.key, 1);
-                    setIsProductModalOpen(false);
-                }}
-            >
-                Añadir al pedido
-            </button>
-        </div>
-    </div>
-)}
+                        {/* Botón añadir al pedido */}
+                        <button
+                            className="home__btn-create-order"
+                            onClick={() => {
+                                handleQuantityChange(selectedEmpanada.key, 1);
+                                setIsProductModalOpen(false);
+                            }}
+                        >
+                            Añadir al pedido
+                        </button>
+                    </div>
+                </div>
+            )}
 
         </div>
     );

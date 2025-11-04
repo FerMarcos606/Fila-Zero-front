@@ -20,14 +20,19 @@ const DeliveryPage = () => {
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
-  const handleOpenLogoutModal = () => console.log('Logout modal opened');
+  // const handleOpenLogoutModal = () => console.log('Logout modal opened');
 
   // ✅ Recuperar datos del pedido desde HomePage
   const { order = {}, totalPrice = "0.00" } = location.state || {};
 
   const [statusPedido, setStatusPedido] = useState('preparacion');
-  const TIEMPO_INICIAL_SEGUNDOS = 900; 
+  
+  // ⏱️ CAMBIO AQUÍ: ahora arranca en 1 minuto (60s)
+  const TIEMPO_INICIAL_SEGUNDOS = 60; 
   const [tiempoRestante, setTiempoRestante] = useState(TIEMPO_INICIAL_SEGUNDOS);
+
+  // 🔁 CAMBIO AQUÍ: control del mensaje de cola
+  const [mensajeCola, setMensajeCola] = useState("Tu lugar en la cola es: #05");
   const [mostrarCola, setMostrarCola] = useState(false);
 
   useEffect(() => {
@@ -46,17 +51,34 @@ const DeliveryPage = () => {
       : `${pad(minutes)}:${pad(seconds)}`;
   };
 
+  // 🕒 CAMBIO AQUÍ: cronómetro descendente y reinicio automático
   useEffect(() => {
     if (tiempoRestante <= 0) return;
-    const intervalId = setInterval(() => setTiempoRestante(prev => prev - 1), 1000);
+
+    const intervalId = setInterval(() => {
+      setTiempoRestante(prev => {
+        if (prev <= 1) {
+          clearInterval(intervalId);
+          // Cuando llega a 0:
+          setMensajeCola("Se ha superado tu tiempo de recogida del pedido. Tu nueva posición en la cola es: #17");
+          // Reinicia con una nueva cuenta atrás de 30 min (1800s)
+          setTiempoRestante(1800); // 30 minutos fijos
+          return 0; // corta el ciclo actual
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
     return () => clearInterval(intervalId);
   }, [tiempoRestante]);
 
+  // Transición de estado de pedido (8s)
   useEffect(() => {
-    const timerEstado = setTimeout(() => setStatusPedido('listo'), 6000);
+    const timerEstado = setTimeout(() => setStatusPedido('listo'), 8000);
     return () => clearTimeout(timerEstado);
   }, []); 
 
+  // Mostrar cola cuando está listo
   useEffect(() => {
     setMostrarCola(statusPedido === 'listo');
   }, [statusPedido]);
@@ -72,14 +94,15 @@ const DeliveryPage = () => {
 
   return (
     <div className="delivery-page">
-      <Header
-        title="Tu Pedido"
-        leftIcon={<span className="material-symbols-outlined">arrow_back</span>}
-        rightIcon={<span className="material-symbols-outlined">info</span>}
-        onLeftClick={() => navigate('/home')}
-        onRightClick={handleOpenModal} // no se toca
-        onLogoutClick={handleOpenLogoutModal}
-      />
+        <Header
+            title="Tu Pedido"
+            leftIcon={<span className="material-symbols-outlined">arrow_back</span>}
+            rightIcon={<span className="material-symbols-outlined">info</span>}
+            secondRightIcon={<span className="material-symbols-outlined">logout</span>}
+            onLeftClick={() => navigate('/home')}
+            onRightClick={handleOpenModal}
+            onSecondRightClick={null} // usa el logout por defecto
+        />
      
       <main className="delivery-main">
         <div className="delivery-main__section-title">
@@ -137,7 +160,8 @@ const DeliveryPage = () => {
             </p>
             {mostrarCola && (
               <p className="time-left-box__queue-info">
-                Tu lugar en la cola es: <span className="time-left-box__queue-number">#05</span>
+                {/* CAMBIO AQUÍ: mensaje dinámico */}
+                {mensajeCola}
               </p>
             )}
           </div>
