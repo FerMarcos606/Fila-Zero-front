@@ -40,9 +40,56 @@ const AppFooter = () => {
             })}
         </footer>
 
-        {/* Modal de Notificaciones */}
         {showNotifications && (
-            <div className="modal-overlay">
+    <div className="notifications-modal-overlay" style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 2000
+    }}> 
+    {/* ¡Estilos inline sólo para presentación! */}
+        <div className="notifications-modal-content" style={{
+            backgroundColor: 'white',
+            padding: '1.5rem',
+            borderRadius: '0.75rem',
+            width: '90%',
+            maxWidth: '360px',
+            position: 'relative',
+            textAlign: 'center',
+            boxSizing: 'border-box'
+        }}>
+            <button 
+                className="notifications-modal-close-btn"
+                onClick={() => setShowNotifications(false)}
+                aria-label="Cerrar notificaciones"
+                style={{
+                    position: 'absolute',
+                    top: '1rem',
+                    left: '1rem',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontSize: '1rem',
+                    color: '#666'
+                }}
+            >
+                ← Volver
+            </button>
+            <h3>Última Notificación</h3>
+            <p>Tienes un nuevo pedido listo para recoger.</p>
+        </div>
+    </div>
+)}
+
+        {/* Modal de Notificaciones
+        {showNotifications && (
+            <div className="notifications-modal-overlay">
                 <div className="modal-content">
                     <button 
                         className="modal-close-btn"
@@ -55,7 +102,7 @@ const AppFooter = () => {
                     <p>Tienes un nuevo pedido listo para recoger.</p>
                 </div>
             </div>
-        )}
+        // )} */}
         </>
     );
 };

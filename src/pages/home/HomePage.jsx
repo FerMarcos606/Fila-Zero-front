@@ -11,7 +11,7 @@ const EMPANADAS_DATA = [
         key: "carne", 
         name: "Carne", 
         price: 2.50, 
-        description: "Rellena de carne, cebolla y aceitunas.", 
+        description: "Masa de Hojaldre rellena de carne, cebolla y aceitunas con productos de la Huerta.", 
         imageUrl:detalleEmpanadaImg
     },    
 
@@ -19,21 +19,21 @@ const EMPANADAS_DATA = [
         key: "pollo", 
         name: "Pollo", 
         price: 2.50, 
-        description: "Rellena de pollo y especias.", 
+        description: "Masa de Hojadre rellena de pollo y especias en Horno de Leña.", 
         imageUrl: detalleEmpanadaImg
     },
     { 
         key: "vegetariana", 
         name: "Vegetariana", 
         price: 2.75, 
-        description: "Rellena de verduras frescas.", 
+        description: "Masa de Hojaldre rellena de verduras frescas de la Huerta en Horno de Leña.", 
         imageUrl: detalleEmpanadaImg
     },
     { 
         key: "cecina", 
         name: "Cecina y Queso Cabra", 
         price: 3.00, 
-        description: "Cecina con queso de cabra.", 
+        description: "Masa de Hojaldre rellena de Cecina con queso de cabra.", 
         imageUrl:detalleEmpanadaImg
     },
 ];
