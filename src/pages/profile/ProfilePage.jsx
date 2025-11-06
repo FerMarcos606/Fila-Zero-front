@@ -1,119 +1,127 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-// Importa tus componentes genéricos
-import { NavLink } from "react-router-dom";
-import Button from "../../components/button/Button"; 
-// Importa el modal de edición específico (que haremos después)
-import GenericModal from '../../components/modal/GenericModal'; 
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import GenericModal from "../../components/modal/GenericModal";
 import "./ProfilePage.css";
+import Footer from '../../components/footer/Footer';
 
-const ProfilePage = () => {
-    const navigate = useNavigate();
+const ArrowLeftIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+    <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
+  </svg>
+);
+
+const LogoutIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+    <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm40-88a8,8,0,0,1-8,8H104a8,8,0,0,1,0-16h56A8,8,0,0,1,168,128Z"></path>
+  </svg>
+);
+
+const ProfilePage = ({ onLogout }) => {
+  const navigate = useNavigate();
+  
+  // Función para obtener datos de localStorage
+  const getUserData = () => {
+    const saved = localStorage.getItem('userData');
+    console.log("📖 Leyendo localStorage:", saved);
     
-    // Estado para gestionar los datos del usuario (debería venir de un contexto global o API)
-   const [userData, _setUserData] = useState({ /* ... */ });
-    //     name: 'Sofía',
-    //     firstSurname: 'García',
-    //     secondSurname: 'López',
-    //     dni: '12345678A',
-    //     email: 'sofia.garcia@email.com',
-    //     phoneNumber: '+34 678 123 456',
-    // });
-
-    // Estado para controlar la visibilidad del modal de edición
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    if (saved) {
+      return JSON.parse(saved);
+    }
     
-    // Estado para controlar la visibilidad del modal de confirmación de logout
-    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
-
-    const handleLogout = () => {
-        // Aquí iría la lógica para invalidar el token (TokenService.js en tu Fila-Zero)
-        console.log('Cerrando sesión...');
-        setIsLogoutModalOpen(false);
-        navigate('/login'); // Redirigir al login
+    // Valores por defecto si no hay nada guardado
+    return {
+      imageUrl: "https://lh3.googleusercontent.com/aida-public/AB6AXuBHfP-xaT45kIoCmxtNUrjRNRpbpk0Y8cvvuf55jxySXQT0b46ORG5MA4H7tAq9fMYXiWnWzLbsxBRwQboBCRGe2RGart0jAjmxr_oVJKOmly7B7uYZ1HVlmSfAy9co-kMcadpjQcFUHck86qPSZQVXDHwiJy8Ir3jRkxxxUibTQXiUn611HQTa7eMBqceBkEtzgiiiYtwF2cbpTvjvTjDr0qbr9Vo5tYwZq2mmvy-ne9Ey9qeuLalWdluUY-EjLhH5oGHuP4BMODLQ",
+      name: "",
+      firstSurname: "",
+      secondSurname: "",
+      dni: "",
+      email: "",
+      phoneNumber: "",
     };
+  };
 
-    return (
-        // profile-screen -> .profile
-        <div className="profile"> 
+  const [userData, setUserData] = useState(getUserData());
+  const [showModal, setShowModal] = useState(false);
+  
+  console.log("👤 userData actual:", userData);
 
-            {/*  Header (app-header -> app-header) */}
-            <header className="app-header">
-                {/* Asumo que este es el componente actual, no el de perfil */}
-                <h1 className="app-header__title">Perfil</h1> 
-                {/* Puedes añadir la flecha de regreso aquí si es necesario: */}
-                {/* <button className="app-header__icon-button" onClick={() => navigate(-1)}>...</button> */}
-            </header>
-
-            {/*(profile-content -> profile__content) */}
-            <main className="profile__content">
-                
-                {/* (user-data-section -> profile__data-section) */}
-                <section className="profile__data-section">
-                    <h2 className="profile__section-title">Información Personal</h2>
-                    
-                    {Object.entries(userData).map(([key, value]) => (
-                        <div key={key} className="profile__data-item">
-                            <span className="profile__data-label">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-                            <span className="profile__data-value">{value}</span>
-                        </div>
-                    ))}
-                    
-                </section>
-
-                {/*Btn (profile-actions -> profile__actions) */}
-                <div className="profile__actions">
-                    {/* Btn edit Profile */}
-                    <Button 
-                        text="Editar perfil" 
-                        variant="primary" 
-                        onClick={() => setIsEditModalOpen(true)} 
-                    />
-                    
-                    {/* Btn close session */}
-                    <Button 
-                        text="Cerrar sesión" 
-                        variant="secondary" 
-                        onClick={() => setIsLogoutModalOpen(true)}
-                    />
-                </div>
-            </main>
-
-            {/* E: Componente de navegación inferior */}
-            {/* <MobileNavBar activeItem="Perfil" />  */}
-            
-            {/* ---------------------------------------------------- */}
-            {/* RENDERIZADO CONDICIONAL DE LOS MODALES */}
-            {/* ---------------------------------------------------- */}
-
-            {/* Modal de Edición (Bottom Sheet) */}
-            {isEditModalOpen && (
-                <ProfileEditModal 
-                    isOpen={isEditModalOpen} 
-                    onClose={() => setIsEditModalOpen(false)} 
-                    initialData={userData}
-                    // onSave={handleSaveProfile}
-                />
-            )}
-
-            {/* Modal generic*/}
-            {isLogoutModalOpen && (
-                <GenericModal 
-                    isOpen={isLogoutModalOpen} 
-                    onClose={() => setIsLogoutModalOpen(false)}
-                    title="Cerrar Sesión"
-                    // ... props para el contenido del modal
-                >
-                    <p>¿Estás seguro que quieres cerrar sesión?</p>
-                    <div className="modal__actions">
-                        <Button text="Cancelar" variant="secondary" onClick={() => setIsLogoutModalOpen(false)} />
-                        <Button text="Cerrar Sesión" variant="danger" onClick={handleLogout} />
-                    </div>
-                </GenericModal>
-            )}
-
-        </div>
-    );
+  const handleGoBack = () => navigate(-1);
+  const handleModalToggle = () => setShowModal(!showModal);
+  
+  const handleSave = (updatedData) => {
+  // Guardar en localStorage primero
+  localStorage.setItem('userData', JSON.stringify(updatedData));
+  console.log("💾 Datos actualizados:", updatedData);
+  
+  // Crear un nuevo objeto para forzar re-render
+  setUserData({...updatedData});
+  setShowModal(false);
 };
+
+  return (
+    <div className="profile-root">
+      <main className="profile-container">
+        {/* === Header === */}
+        <header className="profile-header">
+          <button className="profile-header__back-button" onClick={handleGoBack} aria-label="Volver atrás">
+            <ArrowLeftIcon />
+          </button>
+          <h2 className="profile-header__title">Mi Perfil</h2>
+          <button className="profile-header__logout-button" onClick={onLogout} aria-label="Cerrar sesión">
+            <LogoutIcon />
+          </button>
+        </header>
+
+        {/* === Tarjeta de perfil === */}
+        <section className="profile-card">
+          <div className="profile-card__content">
+            <div 
+              className="profile-card__avatar" 
+              style={{ backgroundImage: `url(${userData.imageUrl})` }}
+            ></div>
+            
+            <div className="profile-card__info">
+              <p className="profile-card__name">
+                {userData.name} {userData.firstSurname} {userData.secondSurname}
+              </p>
+              {userData.dni && <p className="profile-card__detail">DNI: {userData.dni}</p>}
+              {userData.email && <p className="profile-card__detail">{userData.email}</p>}
+              {userData.phoneNumber && <p className="profile-card__detail">Tel: {userData.phoneNumber}</p>}
+            </div>
+          </div>
+
+          {/* === Botón editar perfil === */}
+          <div className="profile-actions">
+            <button 
+              type="button" 
+              className="profile-actions__button profile-actions__button--primary" 
+              onClick={handleModalToggle}
+            >
+              Editar perfil
+            </button>
+          </div>
+        </section>
+
+        {/* === Modal de edición === */}
+        <GenericModal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          initialData={userData}
+          onSave={handleSave}
+        />
+
+          <Footer />
+      </main>
+    </div>
+
+    
+  );
+};
+
+ProfilePage.defaultProps = {
+  onLogout: () => console.log("Logout Clicked"),
+};
+
+  
 
 export default ProfilePage;

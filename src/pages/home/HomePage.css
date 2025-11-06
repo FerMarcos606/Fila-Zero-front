@@ -1,246 +1,396 @@
-/* Bloque Principal (Simula centrado en móvil) */
+/* ------------------ BLOQUE PRINCIPAL ------------------ */
 .home-screen {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    /* Centrado en móvil y límite de ancho */
-    max-width: 400px; 
-    margin: 0 auto;
-    background-color: var(--color-light-background); /* Usando tu variable */
-    position: relative; /* Para que el footer fixed se centre correctamente */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: var(--color-light-background);
+  position: relative;
 }
 
 /* ------------------ HEADER ------------------ */
-
 .home__header {
-    /* Estilo fijo superior */
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    
-    /* Fondo con un poco de transparencia y blur para un efecto moderno */
-    background-color: var(--color-white-transparent); /* Puedes definir esta variable si quieres blur */
-    backdrop-filter: blur(5px); 
-    
-    padding: var(--spacing-m) var(--spacing-l); 
-    border-bottom: 1px solid var(--color-border-light); 
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-white-transparent);
+  backdrop-filter: blur(5px);
+  padding: var(--spacing-m) var(--spacing-l);
+  border-bottom: 1px solid var(--color-border-light);
 }
 
 .home__header-title {
-    font-size: var(--font-size-section-title); /* 18px */
-    font-weight: var(--font-weight-bold);
-    color: var(--color-primary-dark-text);
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-dark-text);
 }
 
 .home__profile-btn {
-    /* Diseño circular rojo suave (simulando bg-primary/10 text-primary) */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: var(--color-primary-light); /* Necesitas una versión más clara de --color-primary */
-    color: var(--color-primary); 
-    border: none;
-    cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border: none;
+  cursor: pointer;
 }
 
 .home__profile-icon {
-    font-size: 24px;
+  font-size: 24px;
 }
 
-/* ------------------ main content ------------------ */
-
+/* ------------------ CONTENIDO PRINCIPAL ------------------ */
 .home__content {
-    flex-grow: 1; /* Permite que el contenido tome el espacio restante */
-    overflow-y: auto; /* Scroll dentro del contenido */
-    padding: var(--spacing-l);
-    padding-bottom: 70px; /* Espacio para el footer fijo */
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: var(--spacing-l);
+  padding-bottom: 120px; /* ✅ MÁS espacio para el footer */
+  box-sizing: border-box;
 }
 
 /* Saludo */
 .home__welcome {
-    margin-bottom: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
 }
 
 .home__welcome-message {
-    font-size: var(--font-size-body);
-    color: var(--color-secondary-gray-text);
-    margin-bottom: var(--spacing-xs);
+  font-size: var(--font-size-body);
+  color: var(--color-secondary-gray-text);
+  margin-bottom: var(--spacing-xs);
 }
 
 .home__welcome-subtitle {
-    font-size: 28px; /* Ligeramente más grande que tu variable standard */
-    font-weight: var(--font-weight-bold);
-    color: var(--color-primary-dark-text);
-    line-height: 1.2;
+  font-size: 28px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-dark-text);
+  line-height: 1.2;
 }
 
+/* ------------------ SECCIÓN DE PEDIDO RÁPIDO ------------------ */
+.home__quick-order {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+  /* ✅ CRÍTICO: Asegurar que contiene todo su contenido */
+  margin-bottom: var(--spacing-xxl);
+}
 
-/* ------------------ Fast Delivery (Items) ------------------ */
-
+/* ------------------ LISTA RÁPIDA ------------------ */
 .home__quick-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-m); /* Espacio entre items */
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
 }
 
 .home__quick-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    
-    /* Fondo blanco y esquinas redondeadas (simulando bg-white rounded-lg) */
-    background-color: var(--color-white);
-    padding: var(--spacing-m);
-    border-radius: var(--border-radius-small);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-white);
+  padding: var(--spacing-m);
+  border-radius: var(--border-radius-small);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .home__item-info {
-   background-color: rgb(247, 247, 247);
+  background-color: rgb(247, 247, 247);
 }
 
 .home__quick-name {
-    font-weight: var(--font-weight-bold);
-    color: var(--color-primary-dark-text);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-dark-text);
 }
 
 .home__quick-price {
-    font-size: var(--font-size-small); /* Necesitas una variable de fuente pequeña */
-    color: var(--color-secondary-gray-text);
+  font-size: var(--font-size-small);
+  color: var(--color-secondary-gray-text);
 }
 
-/* Controles de Cantidad */
+/* ------------------ CONTROLES DE CANTIDAD ------------------ */
 .home__quantity-controls {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-s); 
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-s);
 }
 
 .home__quantity-btn {
-    /* Diseño circular minimalista */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    
-    /* Estilos de color para botones de control */
-    background-color: var(--color-primary-light); 
-    color: var(--color-primary); 
-    font-weight: var(--font-weight-bold);
-    transition: background-color 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+  transition: background-color 0.2s;
 }
 
 .home__quantity-btn:hover {
-    background-color: var(--color-primary); /* Color primario sólido en hover */
-    color: var(--color-white);
+  background-color: var(--color-primary);
+  color: var(--color-white);
 }
 
 .home__quantity-display {
-    width: 24px;
-    text-align: center;
-    font-weight: var(--font-weight-bold);
-    color: var(--color-primary-dark-text);
+  width: 24px;
+  text-align: center;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-dark-text);
 }
 
-
-/* ------------------SUMMARY AND BTN------------------ */
-
+/* ------------------ RESUMEN Y BOTÓN ------------------ */
 .home__summary {
-    margin-top: var(--spacing-xl);
-    padding-top: var(--spacing-m);
-    border-top: 1px solid var(--color-border-light);
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-m);
+  border-top: 1px solid var(--color-border-light);
+  /* ✅ CRÍTICO: Debe estar en el flujo normal */
+  position: relative;
+  z-index: 50; /* Por encima del contenido pero debajo del footer */
 }
 
 .home__total {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: var(--spacing-l);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-l);
+  min-height: 30px; /* ✅ Altura mínima para estabilidad */
 }
 
 .home__total-label,
 .home__total-value {
-    font-size: var(--font-size-section-title); /* 18px */
-    font-weight: var(--font-weight-bold);
-    color: var(--color-primary-dark-text);
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-dark-text);
 }
 
+/* ✅ BOTÓN BIZUM - ESTILOS CONSOLIDADOS */
 .home__btn-create-order {
-    /* Simula el botón de Crear Pedido full width */
-    width: 100%;
-    padding: var(--spacing-l) 0;
-    border-radius: var(--border-radius-small);
-    background-color: var(--color-primary);
-    color: var(--color-white);
-    font-size: var(--font-size-section-title);
-    font-weight: var(--font-weight-bold);
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.2s;
+  width: 100%;
+  padding: var(--spacing-l) 0;
+  min-height: 56px; /* ✅ Altura mínima para que sea fácil clickear */
+  border-radius: var(--border-radius-small);
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  position: relative;
+  z-index: 100; /* ✅ Por encima de todo el contenido */
+  display: block; /* ✅ Siempre visible */
+}
+
+.home__btn-create-order:hover:not(:disabled) {
+  background-color: #e67e00; /* Un poco más oscuro al hover */
 }
 
 .home__btn-create-order:disabled {
-    background-color: var(--color-secondary-gray-text); 
-    cursor: not-allowed;
+  background-color: var(--color-secondary-gray-text);
+  cursor: not-allowed;
+  opacity: 0.6;
+  /* ✅ NO ocultar, solo deshabilitar */
 }
 
-
-/* ------------------ FOOTER (Navegación Móvil) ------------------ */
-
-.home__footer {
-    position: fixed; /* Lo fijamos al fondo */
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 20;
-    
-    /* Centrado y límite de ancho */
-    max-width: 400px; 
-    margin: 0 auto;
-    
-    border-top: 1px solid var(--color-border-light);
-    background-color: var(--color-white-transparent); 
-    backdrop-filter: blur(5px);
+/* ============================================
+   MODAL BIZUM
+   ============================================ */
+.bizum-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2500; /* ✅ Por encima del footer (1000) y su modal (2000) */
 }
 
-.home__nav-mobile {
-    display: flex;
-    justify-content: space-around;
-    padding: var(--spacing-s) 0;
+.bizum-modal-content {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  min-width: 300px;
+  max-width: 90%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  z-index: 2501;
 }
 
-.home__nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--spacing-xs);
-    
-    color: var(--color-secondary-gray-text); /* Color por defecto inactivo */
-    text-decoration: none;
-    cursor: pointer;
-    transition: color 0.2s;
+.bizum-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
 }
 
-.home__nav-item--active,
-.home__nav-item:hover {
-    color: var(--color-primary); /* Ítem activo o en hover */
+.bizum-modal-close-icon {
+  cursor: pointer;
+  font-size: 24px;
+  color: #666;
+  transition: color 0.2s;
 }
 
-.home__nav-icon {
-    font-size: 24px; 
+.bizum-modal-close-icon:hover {
+  color: #000;
 }
 
-.home__nav-label {
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-medium);
+.bizum-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bizum-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+
+/* ProductModal dentro de HomePage */
+
+/* Overlay semi-transparente */
+.product-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+}
+
+/* Contenedor del modal */
+.product-modal-content {
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-button);
+  width: 90%;          /* Más ancho que antes */
+  max-width: 400px;    /* Ajusta según tu diseño */
+  max-height: 90%;
+  overflow-y: auto;
+  padding: var(--spacing-m);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Header con título y botón cerrar */
+.product-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-m);
+}
+
+.product-modal-header h3 {
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
+  margin: 0;
+  text-align: center;
+  flex: 1;
+}
+
+.product-modal-close-icon {
+  font-size: 24px;
+  cursor: pointer;
+  color: white;
+}
+
+/* Imagen de la empanada */
+.product-modal-image {
+  width: 100%;       
+  height: 16rem;  
+  object-fit: center; 
+  border-radius: var(--border-radius-small);
+  margin-bottom: var(--spacing-m);
+}
+
+/* Nombre y precio */
+.product-modal-name {
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing-xxs);
+}
+
+.product-modal-price {
+  font-size: var(--font-size-screen-title);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--spacing-s);
+}
+
+/* Descripción */
+.product-modal-description {
+  font-size: var(--font-size-body);
+  color: var(--color-secondary-gray-text);
+  line-height: 1.5;
+  margin-bottom: var(--spacing-m);
+}
+
+/* Controles de cantidad */
+.product-modal-quantity {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-s);
+  margin-bottom: var(--spacing-m);
+}
+
+.product-modal-quantity button {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--color-border-light);
+  background: none;
+  border-radius: 4px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.product-modal-quantity span {
+  min-width: 24px;
+  text-align: center;
+  font-weight: var(--font-weight-bold);
+}
+
+/* Botón de añadir al pedido */
+.product-modal-add-btn {
+  width: 100%;
+  padding: var(--spacing-s);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-bold);
+  background-color: var(--color-primary-brand);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--border-radius-button);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.product-modal-add-btn:hover {
+  background-color: darken(var(--color-primary-brand), 10%);
+}
+
+/* Scroll si el contenido es muy alto */
+.product-modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.product-modal-content::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 3px;
 }

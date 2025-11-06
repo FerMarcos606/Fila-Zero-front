@@ -1,31 +1,59 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; 
 import "./HomePage.css";
+import detalleEmpanadaImg from "../../assets/imgs/detalleempanada.jpg";
+import Header from "../../components/header/Header"; // ⬅️ FALTABA ESTE IMPORT
+import Footer from "../../components/footer/Footer";
 
-// Importaciones de componentes
-import BtnBack from "../../components/btnback/BtnBack"; 
-import Header from "../../components/header/Header";
-
-// Importaciones de estilos se mantienen
-import "../../styles/Variables.css";
-import "../../styles/Base.css";
-
-// Estructura de las empanadas con precio real
+// Estructura de las empanadas con precio, descripción e imagen
 const EMPANADAS_DATA = [
-    { key: "carne", name: "Carne", price: 2.50 },
-    { key: "pollo", name: "Pollo", price: 2.50 },
-    { key: "vegetariana", name: "Vegetariana", price: 2.75 },
-    { key: "cecina", name: "Cecina y Queso Cabra", price: 3.00 },
+    { 
+        key: "carne", 
+        name: "Carne", 
+        price: 2.50, 
+        description: "Masa de Hojaldre rellena de carne, cebolla y aceitunas con productos de la Huerta.", 
+        imageUrl:detalleEmpanadaImg
+    },    
+
+    { 
+        key: "pollo", 
+        name: "Pollo", 
+        price: 2.50, 
+        description: "Masa de Hojadre rellena de pollo y especias en Horno de Leña.", 
+        imageUrl: detalleEmpanadaImg
+    },
+    { 
+        key: "vegetariana", 
+        name: "Vegetariana", 
+        price: 2.75, 
+        description: "Masa de Hojaldre rellena de verduras frescas de la Huerta en Horno de Leña.", 
+        imageUrl: detalleEmpanadaImg
+    },
+    { 
+        key: "cecina", 
+        name: "Cecina y Queso Cabra", 
+        price: 3.00, 
+        description: "Masa de Hojaldre rellena de Cecina con queso de cabra.", 
+        imageUrl:detalleEmpanadaImg
+    },
 ];
 
 const HomePage = () => {
     const navigate = useNavigate();
 
-    // Lógica de estado y cálculo de totales
+    // Estado del pedido
     const [order, setOrder] = useState(
         EMPANADAS_DATA.reduce((acc, item) => ({ ...acc, [item.key]: 0 }), {})
     );
 
+    // Modal Bizum
+    const [isBizumModalOpen, setIsBizumModalOpen] = useState(false);
+
+    // Modal Producto
+    const [isProductModalOpen, setIsProductModalOpen] = useState(false);
+    const [selectedEmpanada, setSelectedEmpanada] = useState(null);
+
+    // Cambiar cantidad en HomePage
     const handleQuantityChange = (itemKey, delta) => {
         setOrder((prev) => ({
             ...prev,
@@ -33,6 +61,7 @@ const HomePage = () => {
         }));
     };
     
+    // Total y cantidad
     const totalPrice = EMPANADAS_DATA.reduce((acc, item) => {
         const quantity = order[item.key] || 0;
         return acc + (item.price * quantity);
@@ -40,37 +69,29 @@ const HomePage = () => {
     
     const totalQuantity = Object.values(order).reduce((a, b) => a + b, 0);
 
-    const handleCreateOrder = () => {
-        if (totalQuantity === 0) return;
-        navigate("/order-summary", { state: { order, totalPrice } });
+    // Bizum
+    const handleOpenBizum = () => { if (totalQuantity === 0) return; setIsBizumModalOpen(true); };
+    const handleCloseBizum = () => setIsBizumModalOpen(false);
+    const handleSendBizum = () => { setIsBizumModalOpen(false); navigate("/delivery", { state: { order, totalPrice } }); };
+
+    // Abrir modal de producto
+    const handleOpenProductModal = (empanada) => {
+        setSelectedEmpanada(empanada);
+        setIsProductModalOpen(true);
     };
-
-    // FUNCIÓN DE NAVEGACIÓN PARA EL FOOTER
-    const handleNavigate = (path) => {
-        navigate(path);
-    };
-
-    
-
-    // --- PROPS PARA EL HEADER ---
-    // 1. Icono Izquierdo
-    const LeftIconComponent = <BtnBack />; 
-    
-    // 2. Icono Derecho
-    const RightIconComponent = (
-        <span className="material-symbols-outlined home__profile-icon">person</span>
-    );
-    
-    // NOTA: Se eliminó la variable PageTitle y su uso en el <Header>
 
     return (
-        <div className="home-screen"> 
-           
+        <div className="home-screen">
+            <Header
+                title="Tus empanadas en su punto"
+                leftIcon={<span className="material-symbols-outlined">arrow_back</span>}
+                rightIcon={<span className="material-symbols-outlined">logout</span>}
+                onLeftClick={() => navigate(-1)} // o navigate('/ruta-anterior')
+                onRightClick={null}
+            />
 
-            {/* === CONTENIDO PRINCIPAL === */}
+            {/* Contenido principal */}
             <main className="home__content">
-                
-                {/* Saludo y Título */}
                 <div className="home__welcome">
                     <p className="home__welcome-message">Hola, Sofía</p> 
                     <h2 className="home__welcome-subtitle">
@@ -78,91 +99,114 @@ const HomePage = () => {
                     </h2>
                 </div>
 
-                {/* Sección de Pedido Rápido (Lista de Items) */}
                 <section className="home__quick-order">
-                    
-                    {/* Mapeo de Items de Empanadas */}
                     <div className="home__quick-list">
                         {EMPANADAS_DATA.map((item) => (
-                           <div key={item.key} className="home__quick-item">
-                                {/* Información del Item */}
+                            <div key={item.key} className="home__quick-item">
                                 <div className="home__item-info">
-                                    <p className="home__quick-name">{item.name}</p>
-                                    <p className="home__quick-price">
-                                        {item.price.toFixed(2)}€
+                                    <p 
+                                        className="home__quick-name"
+                                        onClick={() => handleOpenProductModal(item)}
+                                    >
+                                        {item.name}
                                     </p>
+                                    <p className="home__quick-price">{item.price.toFixed(2)}€</p>
                                 </div>
-                                {/* Controles de Cantidad */}
                                 <div className="home__quantity-controls">
                                     <button
                                         className="home__quantity-btn home__quantity-btn--decrement"
                                         onClick={() => handleQuantityChange(item.key, -1)}
+                                        type="button"
                                     >-</button>
-                                    <span className="home__quantity-display">
-                                        {order[item.key]}
-                                    </span>
+                                    <span className="home__quantity-display">{order[item.key]}</span>
                                     <button
                                         className="home__quantity-btn home__quantity-btn--increment"
                                         onClick={() => handleQuantityChange(item.key, 1)}
+                                        type="button"
                                     >+</button>
                                 </div>
                             </div>
                         ))}
                     </div>
 
-                    {/* === RESUMEN Y BOTÓN CREAR PEDIDO === */}
+                    {/* Resumen siempre visible */}
                     <div className="home__summary">
                         <div className="home__total">
                             <span className="home__total-label">Total</span>
-                            <span className="home__total-value">
-                                {totalPrice} €
-                            </span>
+                            <span className="home__total-value">{totalPrice} €</span>
                         </div>
                         <button
                             type="button"
                             className="home__btn-create-order"
-                            onClick={handleCreateOrder}
+                            onClick={handleOpenBizum}
                             disabled={totalQuantity === 0}
                         >
-                            Crear Pedido
+                            Bizum
                         </button>
                     </div>
                 </section>
             </main>
-            
-            {/* === FOOTER/NAVEGACIÓN MÓVIL (Fijo) - BLOQUE SOLICITADO === */}
-            <footer className="home__footer">
-                <nav className="home__nav-mobile">
-                    
-                    {/* Ítem Home (Activo) */}
-                    <a className="home__nav-item home__nav-item--active" onClick={() => handleNavigate("/home")}>
-                        <span className="material-symbols-outlined home__nav-icon"> home </span>
-                        <span className="home__nav-label">Home</span>
-                    </a>
-                    
-                    {/* Ítem Pedidos */}
-                    <a className="home__nav-item" onClick={() => handleNavigate("/orders")}>
-                        <span className="material-symbols-outlined home__nav-icon"> receipt_long </span>
-                        <span className="home__nav-label">Pedidos</span>
-                    </a>
-                    
-                    {/* Ítem Notificaciones */}
-                    <a className="home__nav-item" onClick={() => handleNavigate("/notifications")}>
-                        <span className="material-symbols-outlined home__nav-icon"> notifications </span>
-                        <span className="home__nav-label">Notificaciones</span>
-                    </a>
-                    
-                    {/* Ítem Perfil */}
-                    <a className="home__nav-item" onClick={() => handleNavigate("/profile")}>
-                        <span className="material-symbols-outlined home__nav-icon"> person </span>
-                        <span className="home__nav-label">Perfil</span>
-                    </a>
-                </nav>
-            </footer>
-            
+
+            <Footer />
+
+            {/* Modal Bizum */}
+            {isBizumModalOpen && (
+                <div className="bizum-modal-overlay" onClick={handleCloseBizum}>
+                    <div className="bizum-modal-content" onClick={(e) => e.stopPropagation()}>
+                        <div className="bizum-modal-header">
+                            <span
+                                className="material-symbols-outlined bizum-modal-close-icon"
+                                onClick={handleCloseBizum}
+                            >close</span>
+                            <h3>Pago Bizum</h3>
+                        </div>
+                        <div className="bizum-modal-body">
+                            <p><strong>Teléfono:</strong> 600123456</p>
+                            <p><strong>Subtotal:</strong> {totalPrice} €</p>
+                        </div>
+                        <div className="bizum-modal-footer">
+                            <button 
+                                className="home__btn-create-order" 
+                                onClick={handleSendBizum}
+                                type="button"
+                            >Enviar</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Modal Producto */}
+            {isProductModalOpen && selectedEmpanada && (
+                <div className="product-modal-overlay" onClick={() => setIsProductModalOpen(false)}>
+                    <div className="product-modal-content" onClick={(e) => e.stopPropagation()}>
+                        <button className="modal-close-btn" onClick={() => setIsProductModalOpen(false)}>✕</button>
+
+                        <img 
+                            src={detalleEmpanadaImg} 
+                            alt={selectedEmpanada.name} 
+                            className="product-modal-image" 
+                        />
+
+                        <h2>{selectedEmpanada.name}</h2>
+                        <p>{selectedEmpanada.description}</p>
+                        <p>Precio: {selectedEmpanada.price.toFixed(2)} €</p>
+
+                        {/* Botón añadir al pedido */}
+                        <button
+                            className="home__btn-create-order"
+                            onClick={() => {
+                                handleQuantityChange(selectedEmpanada.key, 1);
+                                setIsProductModalOpen(false);
+                            }}
+                        >
+                            Añadir al pedido
+                        </button>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };
-
 
 export default HomePage;

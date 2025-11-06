@@ -1,62 +1,109 @@
+/* Footer general */
 .mobile-nav-bar {
-  position: fixed; /* Fija la barra en la parte inferior de la pantalla */
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  /*max-width: 375px; Asegura que no se extienda más allá del ancho del iPhone 13 mini*/
-  margin: 0 auto;   /* Centra la barra en el viewport si la pantalla es más ancha */
-  background-color: var(--color-white);
-  box-shadow: 0 -2px 8px rgba(0,0,0,0.1); /* Sombra superior para levantarla visualmente */
-  display: flex;
-  justify-content: space-around; /* Distribuye los elementos uniformemente */
-  align-items: center;
-  height: 60px; /* Altura estándar de la barra de navegación */
-  padding-bottom: env(safe-area-inset-bottom); /* Para iPhone con notch y barra de inicio */
-  z-index: 999; /* Asegura que esté por encima de la mayoría del contenido */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    background-color: var(--color-white);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 60px;
+    padding-bottom: env(safe-area-inset-bottom);
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+    z-index: 1000;
 }
 
 .nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex: 1; /* Permite que cada ítem ocupe el mismo espacio */
-  text-decoration: none; /* Quita el subrayado de los enlaces */
-  color: var(--color-nav-inactive-icon); /* Color por defecto de íconos/texto */
-  font-size: var(--font-size-caption); /* Tamaño pequeño para el texto */
-  font-weight: var(--font-weight-medium);
-  transition: color 0.2s ease; /* Transición suave para el cambio de color */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--color-secondary-gray-text);
+    transition: color 0.2s;
+}
+
+.nav-item--active,
+.nav-item:hover {
+    color: var(--color-primary);
 }
 
 .nav-item-icon {
-  width: 24px; /* Tamaño del icono */
-  height: 24px;
-  margin-bottom: var(--spacing-xxs); /* Pequeño espacio entre icono y texto */
-  /* Si usas SVG, puedes controlar el color con 'fill: currentColor;' */
+    font-size: 24px;
 }
 
-/* Estado activo del ítem de navegación */
-.nav-item.active {
-  color: var(--color-primary-brand); /* Color de la marca cuando está activo */
+.nav-item-label {
+    font-size: 12px;
 }
 
-.nav-item.active .nav-item-icon {
-  color: var(--color-primary-brand); /* Asegura que el icono también cambie de color */
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right:0;
+    bottom:0;
+    background-color: rgba(0,0,0,0.5);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index: 2000;
 }
 
-/* Badge de notificación (ej. en el ícono de Pedidos o Notificaciones) */
-.nav-item-badge {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background-color: var(--notification-badge-red);
-  color: var(--color-white);
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 10px;
-  font-weight: var(--font-weight-bold);
+.modal-content {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    width: 90%;
+    max-width: 360px;
+    position: relative;
+    text-align: center;
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    border: none;
+    background: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+.notifications-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.notifications-modal-content {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    width: 90%;
+    max-width: 360px;
+    position: relative;
+    text-align: center;
+}
+
+.notifications-modal-close-btn {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #666;
 }

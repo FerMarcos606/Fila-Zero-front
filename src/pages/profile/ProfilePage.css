@@ -1,86 +1,241 @@
-/* Bloque Principal: .profile (Reemplaza .profile-screen) */
-.profile {
-  /* ... (Estilos existentes del .profile-screen) ... */
-  display: flex; /* Asumo que es un contenedor flex para scroll */
-  flex-direction: column;
+@import '../../styles/Base.css';
+@import '../../styles/Variables.css';
+
+.profile-container {
+    flex-grow: 1; /* Permite que el contenido principal ocupe el espacio */
+    display: flex;
+    flex-direction: column;
 }
 
-/* Elemento: .profile__header (Reemplaza .profile-header) */
-.profile__header {
-  /* ... (Estilos existentes del .profile-header) ... */
+/* === B: PROFILE-HEADER (Cabecera superior) === */
+.profile-header {
+    display: flex;
+    align-items: center;
+    background-color: var(--color-background-main);
+    padding: 1rem; /* p-4 */
+    padding-bottom: 0.5rem; /* pb-2 */
+    justify-content: space-between;
 }
 
-/* Elemento: .profile__title (Reemplaza .profile-title) */
-.profile__title {
-  /* ... (Estilos existentes del .profile-title) ... */
+.profile-header__back-button {
+    color: var(--color-primary-dark);
+    display: flex;
+    width: 48px; /* size-12 (4*12=48px) */
+    height: 48px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    cursor: pointer;
 }
 
-/* Elemento: Contenido principal (Reemplaza .profile-content) */
-.profile__content {
-  flex-grow: 1;
-  padding: 0 var(--spacing-l);
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: var(--spacing-xl); /* Espacio al final */
+.profile-header__logout-button {
+    /* Asegura que este botón tenga el mismo ancho que el de 'back' para centrar el título */
+    color: var(--color-primary-dark);
+    display: flex;
+    width: 48px; /* size-12 (4*12=48px) */
+    height: 48px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    cursor: pointer;
 }
 
-/* Elemento: Sección de datos del usuario (Reemplaza .user-data-section) */
-.profile__data-section {
-  background-color: var(--color-white);
-  border-radius: var(--border-radius-card);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  padding: var(--spacing-m);
-  margin-bottom: var(--spacing-xxl); /* Más espacio antes de los botones */
+.profile-header__title {
+    color: var(--color-primary-dark);
+    font-size: var(--font-size-title);
+    font-weight: 700; /* bold */
+    line-height: 1.25; /* leading-tight */
+    letter-spacing: -0.015em;
+    flex: 1;
+    text-align: center;
+    /* 🚨 Ajuste: Se elimina padding-right: 3rem; para que se centre bien entre los dos botones de 48px */
 }
 
-/* Elemento: Título de sección (Reemplaza .section-title) */
-.profile__section-title {
-  font-size: var(--font-size-section-title);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-primary-dark-text);
-  margin-bottom: var(--spacing-m);
-  border-bottom: 1px solid var(--color-border-light);
-  padding-bottom: var(--spacing-s);
+
+/* === B: PROFILE-CARD (Información del perfil) === */
+.profile-card {
+    /* 💡 MODIFICADO: Cambiamos a columna y ocupamos todo el ancho para que el botón se coloque debajo */
+    display: flex;
+    flex-direction: column; 
+    width: 100%; 
+    padding: 1rem; /* p-4 */
+    gap: 1.5rem; /* Separación entre la tarjeta de info y el área de acciones */
 }
 
-/* Elemento: Fila de datos individual (Reemplaza .data-item) */
-.profile__data-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--spacing-s) 0;
-  border-bottom: 1px solid var(--color-border-light);
+.profile-card__content {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 1rem; /* gap-4 */
+    align-items: center; /* Centra el avatar y el bloque de info */
 }
 
-.profile__data-item:last-child {
-  border-bottom: none; /* No hay borde en el último elemento */
+.profile-card__avatar {
+    background-position: center;
+    background-repeat: no-repeat;
+    aspect-ratio: 1 / 1; /* aspect-square */
+    background-size: cover;
+    border-radius: 9999px; /* rounded-full */
+    min-height: 8rem; /* min-h-32 (128px) */
+    width: 8rem; /* w-32 (128px) */
 }
 
-/* Modificador: Ocultar campo Bizum */
-.profile__data-item--bizum { /* Usamos un modificador para Bizum */
-    display: none; 
+.profile-card__info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem; 
 }
 
-/* Elemento: Etiqueta del dato (Reemplaza .data-label) */
-.profile__data-label {
-  font-size: var(--font-size-body);
-  color: var(--color-secondary-gray-text);
-  font-weight: var(--font-weight-regular);
+.profile-card__name {
+    color: var(--color-primary-dark);
+    font-size: var(--font-size-name); /* 22px */
+    font-weight: 700; /* bold */
+    line-height: 1.25; /* leading-tight */
+    letter-spacing: -0.015em;
+    text-align: center;
 }
 
-/* Elemento: Valor del dato (Reemplaza .data-value) */
-.profile__data-value {
-  font-size: var(--font-size-body);
-  color: var(--color-primary-dark-text);
-  font-weight: var(--font-weight-medium);
-  text-align: right;
+.profile-card__detail {
+    color: var(--color-secondary-text);
+    font-size: var(--font-size-detail); /* 16px */
+    font-weight: 400; /* normal */
+    line-height: 1.5; /* leading-normal */
+    text-align: center;
 }
 
-/* Elemento: Contenedor de botones (Reemplaza .profile-actions) */
-.profile__actions {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-m); /* Espacio entre botones */
-  padding: 0 var(--spacing-l); /* Mismo padding horizontal que el contenido */
-  margin-bottom: var(--spacing-xl); 
+
+/* === B: PROFILE-ACTIONS (Botones) === */
+.profile-actions {
+    /* 💡 MODIFICADO: Aseguramos que ocupe todo el ancho y centramos el contenido */
+    padding: 0; 
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Centra el bloque de acciones */
+}
+
+.profile-actions__item {
+    /* Permite que el contenedor del botón no sea excesivamente ancho en pantallas grandes */
+    width: 100%;
+    max-width: 480px; 
+    padding-top: 0.75rem; 
+    padding-bottom: 0.75rem; 
+}
+.profile-actions__button {
+    display: flex;
+    justify-content: center; /* Centra todo el contenido horizontalmente */
+    align-items: center;
+    gap: 0.5rem; /* separa el texto del icono */
+    min-width: 84px;
+    max-width: 100%;
+    cursor: pointer;
+    border-radius: 0.75rem;
+    height: 2.5rem;
+    padding: 0 1.5rem;
+    font-size: var(--font-size-button); 
+    font-weight: 700; 
+    line-height: 1.5; 
+    letter-spacing: 0.015em;
+    border: 2px solid var(--color-border);
+}
+
+
+/* 💡 NUEVA REGLA: Centra el texto del botón */
+.profile-actions__label {
+    flex-grow: 1; 
+    text-align: center; 
+}
+
+/* M: Modificadores para los botones */
+.profile-actions__button--primary {
+    background-color: var(--color-background-button);
+    color: var(--color-primary-dark);
+}
+
+.profile-actions__button--secondary {
+    background-color: transparent;
+    color: var(--color-primary-dark);
+    border: none;
+}
+
+
+/* === B: MAIN-NAV (Barra de navegación inferior - Fila-Zero Navbar) === */
+.main-nav {
+    border-top: 1px solid var(--color-border);
+    background-color: var(--color-background-main);
+    padding: 0 1rem; 
+    padding-top: 0.5rem; 
+    padding-bottom: 0.75rem; 
+}
+
+.main-nav__inner {
+    display: flex;
+    gap: 0.5rem; 
+}
+
+.main-nav__item {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end; 
+    gap: 0.25rem; 
+    text-decoration: none;
+    color: var(--color-secondary-text);
+}
+
+.main-nav__item--active {
+    color: var(--color-primary-dark); 
+}
+
+.main-nav__icon {
+    display: flex;
+    height: 2rem; 
+    align-items: center;
+    justify-content: center;
+}
+
+.main-nav__icon svg {
+    fill: currentColor; 
+}
+
+.main-nav__label {
+    font-size: var(--font-size-nav-label); 
+    font-weight: 500; 
+    line-height: 1.5; 
+    letter-spacing: 0.015em;
+    color: currentColor; 
+}
+
+.main-nav__spacer {
+    height: 1.25rem; 
+    background-color: var(--color-background-main);
+}
+
+/* === B: MODAL STYLES === */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; 
+}
+
+.modal-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-width: 90%;
+    min-width: 300px;
 }

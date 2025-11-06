@@ -1,320 +1,343 @@
+@import '../../styles/Base.css';
+@import '../../styles/Variables.css';
 
-.page-delivery { 
-  /* Mantiene la estructura del body del HTML original (min-h-screen) */
+/* DeliveryPage.css */
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  /* El color base lo toma de 'body' */
+}
+
+/* ---------------------------------------------------------------- */
+/* Componente Principal (.delivery-page) */
+/* ---------------------------------------------------------------- */
+
+.delivery-page {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; 
-  /* Estilos para el background y texto basados en Tailwind config */
-  /* background-color: var(--background-light);  */
-  color: var(--text-light);
-  font-family: var(--font-display);
+  min-height: 100vh;
 }
 
-.page-delivery__main { /* ¡ELEMENTO MODIFICADO! */
-  flex-grow: 1;
-  padding: 1rem; /* px-4 */
-  padding-top: 1rem; /* pt-4 */
-  padding-bottom: 6rem; /* pb-24 (para compensar el footer fijo) */
-  /* Adaptación del .order-detail-content */
-  overflow-y: auto;
+/* ---------------------------------------------------------------- */
+/* HEADER */
+/* ---------------------------------------------------------------- */
+
+.delivery-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-m); /* p-4 -> Reemplazado por spacing-m (16px) */
+  background-color: var(--color-light-background);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); 
 }
 
-.page-delivery__title { 
-  /* mb-6 */
-  margin-bottom: 1.5rem; 
-  /* text-xl font-bold */
-  font-size: 1.25rem;
-  font-weight: 700;
+/* Dark Mode (Si lo manejas a nivel global con una clase '.dark') */
+.dark .delivery-header {
+    background-color: var(--color-light-background); /* Si el header no tiene dark mode */
 }
 
-.page-delivery__grid {
-  /* space-y-4 */
+
+.delivery-header__title {
+  flex: 1; 
+  text-align: center;
+  font-size: var(--font-size-section-title); /* text-lg -> font-size-section-title (18px) */
+  font-weight: var(--font-weight-bold);
+}
+
+.delivery-header__button {
+  padding: var(--spacing-xxs); /* Ajuste menor */
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* ---------------------------------------------------------------- */
+/* MAIN */
+/* ---------------------------------------------------------------- */
+
+.delivery-main {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  padding: var(--padding-screen); /* px-4 pt-4 pb-24 -> Usamos padding-screen */
+  padding-bottom:120px;
 }
 
-/*
-  ===================================================================
-  Bloque: summary-card (Resumen del pedido)
-  ===================================================================
-*/
+.delivery-main__section-title {
+  margin-bottom: var(--spacing-xl); /* mb-6 -> spacing-xl (24px) */
+}
+
+.delivery-main__order-id {
+  font-size: var(--font-size-screen-title); /* text-xl -> font-size-screen-title (20px) */
+  font-weight: var(--font-weight-bold);
+}
+
+.delivery-main__container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m); /* space-y-4 -> spacing-m (16px) */
+}
+
+/* -- summary-card (Resumen del pedido) */
 .summary-card {
-  /* bg-background-light p-4 rounded-lg border border-border-light */
-  background-color: var(--background-light);
-  padding: 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid var(--border-light);
+  background-color: var(--color-white); /* Asumimos que los cards usan el blanco */
+  padding: var(--spacing-m);
+  border-radius: var(--border-radius-button); /* Usamos el de los botones por simplicidad */
+  border: 1px solid var(--color-border-light);
 }
 
 .summary-card__title {
-  /* font-bold text-lg mb-4 */
-  font-weight: 700;
-  font-size: 1.125rem;
-  margin-bottom: 1rem;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-section-title);
+  margin-bottom: var(--spacing-m); 
 }
 
-.summary-card__list {
-  /* space-y-3 */
+.summary-card__item-list {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--spacing-s); /* space-y-3 -> spacing-s (12px) */
 }
 
 .summary-card__item {
-  /* flex justify-between items-center */
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: var(--font-size-body);
 }
 
-.summary-card__item-price {
-  /* font-medium */
-  font-weight: 500;
+.summary-card__price {
+  font-weight: var(--font-weight-medium);
 }
 
 .summary-card__divider {
-  /* my-4 border-t border-border-light */
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  border-top: 1px solid var(--border-light);
+  margin-top: var(--spacing-m);
+  margin-bottom: var(--spacing-m);
+  border: 0;
+  border-top: 1px solid var(--color-border-light);
 }
 
 .summary-card__total {
-  /* flex justify-between items-center font-bold text-lg */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-weight: 700;
-  font-size: 1.125rem;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-section-title); /* text-lg -> font-size-section-title (18px) */
 }
 
-/*
-  ===================================================================
-  Bloque: info-card (Estado y Turno)
-  ===================================================================
-*/
-.status-queue-group {
-  /* grid grid-cols-2 gap-4 */
+.summary-card__thanks {
+  text-align: center;
+  font-size: var(--font-size-section-title);
+  color: var(--color-secondary-gray-text); /* Reemplaza sutil-light */
+  margin-top: var(--spacing-m);
+}
+
+/* -- grid-status (Estado y Turno) */
+.grid-status {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+  gap: var(--spacing-m);
 }
 
-.info-card {
-  /* bg-background-light p-4 rounded-lg border border-border-light text-center */
-  background-color: var(--background-light);
-  padding: 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid var(--border-light);
+.status-box {
+  background-color: var(--color-light-gray-elements); /* Fondo de elementos secundarios */
+  /* padding: var(--spacing-m); */
+  border-radius: var(--border-radius-button);
+  border: 1px solid var(--color-border-light);
   text-align: center;
 }
 
-.info-card__label {
-  /* text-sm text-subtle-light mb-1 */
-  font-size: 0.875rem;
-  color: var(--subtle-light);
-  margin-bottom: 0.25rem;
+.status-box__label {
+  font-size: var(--font-size-small);
+  color: var(--color-secondary-gray-text);
+  margin-bottom: var(--spacing-xxs);
 }
 
-.info-card__value {
-  /* font-bold text-lg */
-  font-weight: 700;
-  font-size: 1.125rem;
+.status-box__value {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-section-title);
 }
 
-.info-card__value--primary {
-  /* text-primary */
-  color: var(--primary);
+.status-box__value--primary {
+  color: var(--color-orange-warning); /* En preparación -> Naranja/Ámbar */
 }
 
-
-/*
-  ===================================================================
-  Bloque: pickup-card (Retiro Estimado y Tiempo Restante)
-  ===================================================================
-*/
-.pickup-card {
-  /* Estilos base compartidos */
-  padding: 1rem;
-  border-radius: 0.5rem;
+/* -- eta-box (Retiro Estimado) */
+.eta-box {
+  background-color: rgba(255, 165, 0, 0.2); /* color-orange-warning con 20% de opacidad */
+  /* padding: var(--spacing-m); */
+  border-radius: var(--border-radius-button);
   text-align: center;
 }
 
-.pickup-card__label {
-  /* text-sm font-medium mb-1 */
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-bottom: 0.25rem;
+.eta-box__label {
+  font-size: var(--font-size-small);
+  color: var(--color-orange-warning);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--spacing-xxs);
 }
 
-.pickup-card__value {
-  /* font-bold text-xl */
-  font-weight: 700;
-  font-size: 1.25rem;
-  color: var(--text-light); /* Hereda del padre si no tiene modificador */
+.eta-box__value {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-orange-warning);
 }
 
-/* Modificador para Retiro Estimado */
-.pickup-card--estimated {
-  /* bg-primary/20 */
-  background-color: rgba(var(--primary-rgb), 0.2); 
+/* DeliveryPage.css (Fragmento del Time Left Box) */
+
+/* -- time-left-box (Tiempo Faltante) */
+.time-left-box {
+  /* RESTAURADO: Padding a 'm' y color de fondo que elegiste */
+  background-color: rgba(212, 212, 28, 0.2);
+  padding: var(--spacing-m);
+  border-radius: var(--border-radius-button);
+  text-align: center;
 }
 
-.pickup-card--estimated .pickup-card__label,
-.pickup-card--estimated .pickup-card__value {
-  /* text-primary */
-  color: var(--primary);
+.time-left-box__label {
+  font-size: var(--font-size-small);
+  color: var(--color-secondary-gray-text);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--spacing-xxs);
 }
 
-/* Modificador para Tiempo Restante */
-.pickup-card--remaining {
-  /* bg-gray-200/50 */
-  background-color: rgba(192, 192, 192, 0.5); /* Asumiendo un tono gris claro */
+.time-left-box__value {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-screen-title); 
+  color: var(--color-primary-dark-text);
+  
+  /* :octagonal_sign: MODIFICACIÓN CLAVE 1: Reducir el espacio después de "15 min" */
+  margin-bottom: var(--spacing-xxs); 
 }
 
-.pickup-card--remaining .pickup-card__label {
-  /* text-subtle-light */
-  color: var(--subtle-light);
+/* :octagonal_sign: MODIFICACIÓN CLAVE 2: Regla para la línea de la cola :octagonal_sign: */
+.time-left-box__queue-info {
+    font-size: var(--font-size-section-title);
+    color: var(--color-secondary-gray-text); 
+    
+    /* :octagonal_sign: SOLUCIÓN AL CORTE: Eliminar el margen inferior por defecto de este <p> */
+    margin-bottom: 0; 
+    /* Opcional: añade un pequeño margen superior para separación, si es necesario */
+    padding-top: var(--spacing-xxs);
 }
 
-/*
-  ===================================================================
-  Bloque: modal y status-item (Modal de Estados)
-  ===================================================================
-*/
-.modal {
-  /* Adaptación de .modal.is-open, el display: none/flex lo maneja React */
+.time-left-box__queue-number {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-orange-warning); 
+}
+/* ---------------------------------------------------------------- */
+/* FOOTER (Navegación) */
+/* ---------------------------------------------------------------- */
+
+.delivery-footer {
   position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--color-white); /* Asumimos fondo blanco */
+  border-top: 1px solid var(--color-border-light);
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.delivery-footer__nav {
   display: flex;
+  justify-content: space-around;
   align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  z-index: 50; /* Alto z-index */
-}
-
-.modal__content {
-  /* bg-background-light rounded-xl p-6 w-full max-w-sm */
-  background-color: var(--background-light);
-  border-radius: 0.75rem; /* rounded-xl */
-  padding: 1.5rem; /* p-6 */
-  width: 100%;
-  max-width: 24rem; /* max-w-sm */
-}
-
-.modal__header {
-  /* flex justify-between items-center mb-4 */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.modal__title {
-  /* text-lg font-bold */
-  font-size: 1.125rem;
-  font-weight: 700;
-}
-
-.modal__close-button {
-  /* p-2 -mr-2 */
-  padding: 0.5rem;
-  margin-right: -0.5rem;
-}
-
-.modal__body {
-  /* space-y-4 */
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.status-item {
-  /* flex items-center */
-  display: flex;
-  align-items: center;
-}
-
-.status-item__indicator {
-  /* w-3 h-3 rounded-full mr-3 */
-  width: 0.75rem;
-  height: 0.75rem;
-  border-radius: 9999px;
-  margin-right: 0.75rem;
-  flex-shrink: 0;
-}
-
-.status-item__title {
-  /* font-semibold */
-  font-weight: 600;
-}
-
-.status-item__description {
-  /* text-sm text-subtle-light */
-  font-size: 0.875rem;
-  color: var(--subtle-light);
-}
-
-/* Estilos de colores específicos para la leyenda */
-.status-item__indicator.bg-amber-500 { background-color: #f59e0b; } /* Color de 'En preparación' */
-.status-item__indicator.bg-green-500 { background-color: #10b981; } /* Color de 'Listo' */
-.status-item__indicator.bg-red-500 { background-color: #ef4444; } /* Color de 'Cancelado' */
-
-/*
-  ===================================================================
-  Componentes de Layout Reutilizables (Simulación de Imports)
-  ===================================================================
-*/
-
-/* --- Placeholder para Footer --- */
-.footer {
-    /* fixed bottom-0 left-0 right-0 */
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    /* bg-background-light border-t border-border-light */
-    background-color: var(--background-light);
-    border-top: 1px solid var(--border-light);
-    /* pb-safe (se manejaría con CSS variables o padding fijo) */
-    padding-bottom: env(safe-area-inset-bottom);
-}
-
-.footer__nav {
-    /* flex justify-around items-center px-4 py-2 */
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+  padding: var(--spacing-s) var(--spacing-m); /* Ajuste */
 }
 
 .nav-item {
-    /* flex flex-col items-center gap-1 text-subtle-light */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-    color: var(--subtle-light);
-    text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xxs);
+  text-decoration: none;
+  color: var(--color-nav-inactive-icon);
 }
 
 .nav-item--active {
-    /* text-primary */
-    color: var(--primary);
-}
-
-.nav-item__icon {
-    /* material-symbols-outlined */
-    font-size: 1.5rem; /* 24px opsz */
+  color: var(--color-primary-brand);
 }
 
 .nav-item__label {
-    /* text-xs font-medium */
-    font-size: 0.75rem;
-    font-weight: 500;
+  font-size: var(--font-size-caption); /* Etiquetas pequeñas */
+  font-weight: var(--font-weight-medium);
+}
+
+/* ---------------------------------------------------------------- */
+/* MODAL */
+/* ---------------------------------------------------------------- */
+
+.modal {
+  position: fixed;
+  inset: 0; 
+  background-color: var(--color-overlay-dark);
+  display: none; 
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-m);
+  z-index: 50;
+}
+
+.modal.is-open {
+  display: flex;
+}
+
+.modal__content {
+  background-color: var(--color-white); 
+  border-radius: var(--border-radius-button);
+  padding: var(--spacing-l); /* p-6 -> spacing-l (20px) */
+  width: 100%;
+  max-width: 20rem; /* Ajuste para un modal estándar */
+}
+
+.modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-m);
+}
+
+.modal__title {
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
+}
+
+.modal__close-btn {
+  padding: var(--spacing-xxs);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.modal__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+}
+
+.modal__status-item {
+  display: flex;
+  align-items: center;
+}
+
+.modal__status-dot {
+  width: var(--spacing-s); /* w-3 */
+  height: var(--spacing-s); /* h-3 */
+  border-radius: 50%;
+  margin-right: var(--spacing-s); 
+}
+
+.modal__status-dot--amber { background-color: var(--color-orange-warning); }
+.modal__status-dot--green { background-color: var(--color-green-success); }
+.modal__status-dot--red { background-color: var(--color-red-error); }
+
+.modal__status-title {
+  font-weight: var(--font-weight-semibold);
+}
+
+.modal__status-desc {
+  font-size: var(--font-size-small);
+  color: var(--color-secondary-gray-text);
 }
